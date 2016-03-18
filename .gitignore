@@ -61,4 +61,7 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
+# Mac OS generated files
+.DS_Store
+
 data/
