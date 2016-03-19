@@ -9,18 +9,22 @@ import dataset
 
 def train(X_train, X_test, y_train, y_test,clf):
 
-    print np.array(X_train).shape
-    print y_train.shape
-
+    #print np.array(X_train).shape
+    #print y_train.shape
+    print "Fitting model on {} points".format(len(X_train))
     clf = clf.fit(X_train, y_train)
-    print "classifier fit, predicting.."
+
+    print "Done, now predicting.."
     out = clf.predict_proba(X_test)
-    print "predicted, showing predicted images.."
+
+    print "Done, showing predicted images.."
     out_images = util.chunks(out,384*512)
     for image in out_images:
         end_image = image[:,1].reshape((512,384))
         print np.mean(end_image)
         dataset.show_image(end_image)
+
+    print "Done."
 
 def features_to_images(features, dim=0):
     images = util.chunks(features,384*512)
