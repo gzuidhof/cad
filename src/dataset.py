@@ -39,10 +39,12 @@ if __name__ == "__main__":
     x2 = load_images(glob.glob(IMAGES_FOLDER+"*t2.png"))
     x3 = load_images(glob.glob(IMAGES_FOLDER+"*fl.png"))
 
+    # Make the annotations fully binary
     for im in y:
         im[im<=150] = 0
         im[im>150] = 1
 
+    # Make the pixel values run from 0 to 1
     x1 = [x/255 for x in x1]
     x2 = [x/255 for x in x2]
     x3 = [x/255 for x in x3]
@@ -53,8 +55,9 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = sklearn.cross_validation.train_test_split(X,y, test_size=0.33, random_state=0)
 
     dataset = (X_train, X_test, y_train, y_test)
+
     print "Writing to file"
     with open(DATA_FOLDER+"dataset.p", 'w') as f:
         pickle.dump(dataset, f)
 
-    print "Done"
+    print "Done."
