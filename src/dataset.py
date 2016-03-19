@@ -5,7 +5,7 @@ import glob
 import scipy.misc
 import matplotlib.pyplot as plt
 import cPickle as pickle
-import tqdm
+#import tqdm
 
 DATA_FOLDER = "../data/"
 IMAGES_FOLDER = "../data/images/"
