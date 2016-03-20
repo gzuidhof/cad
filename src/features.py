@@ -19,13 +19,20 @@ def flatten_images(dataset):
 
 #Determine the features for one scan (3 input images: T1, T2, Flair)
 def get_features(x):
+    #Amount of pixels
+    N = 512*384
+
     x1, x2, x3 = x
-    x1 = np.array(x1).reshape((512*384))
-    x2 = np.array(x2).reshape((512*384))
-    x3 = np.array(x3).reshape((512*384))
+    x1 = np.array(x1)
+    x2 = np.array(x2)
+    x3 = np.array(x1)
+
+    x1 = x1.reshape((N,))
+    x2 = x2.reshape((N,))
+    x3 = x3.reshape((N,))
 
     dat = []
-    for n in range(512*384):
+    for n in range(N):
         dat.append([x1[n],x2[n],x3[n]] )
 
     dat = np.array(dat)
