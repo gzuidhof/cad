@@ -4,12 +4,12 @@ import cPickle as pickle
 from tqdm import tqdm
 import cv2
 
-def write_features(features):
-    with open(dataset.DATA_FOLDER+"features.p", 'w') as f:
+def write_features(features, name=""):
+    with open(dataset.DATA_FOLDER+"features_{0}.p".format(name), 'w') as f:
         pickle.dump(features, f)
 
-def write_y(y):
-    with open(dataset.DATA_FOLDER+"y.p", 'w') as f:
+def write_y(y,name=""):
+    with open(dataset.DATA_FOLDER+"y_{0}.p".format(name), 'w') as f:
         pickle.dump(y, f)
 
 
@@ -71,12 +71,12 @@ def dist_transform_feature(image):
     return distance_transform
 
 
-def load_features():
-    with open(dataset.DATA_FOLDER+"features.p", 'r') as f:
+def load_features(name=""):
+    with open(dataset.DATA_FOLDER+"features_{0}.p".format(name), 'r') as f:
         return np.array(pickle.load(f))
 
-def load_y():
-    with open(dataset.DATA_FOLDER+"y.p", 'r') as f:
+def load_y(name=""):
+    with open(dataset.DATA_FOLDER+"y_{0}.p".format(name), 'r') as f:
         return np.array(pickle.load(f))
 
 def generate_features_main():
