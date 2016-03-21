@@ -76,7 +76,7 @@ if __name__ == "__main__":
     X_train, y_train = remove_completely_black(X_train, y_train)
 
     print "Normalizing features"
-    normalize_features(X_train, X_test)
+    X_train, X_test = normalize_features(X_train, X_test)
 
     print "Balancing classes"
     X_train,y_train = balance_classes(X_train,y_train)
