@@ -7,8 +7,7 @@ import numpy as np
 import util
 import dataset
 
-def balance_classes(X_train,y_train, positive_ratio=0.02):
-
+def balance_classes(X_train,y_train, positive_ratio=0.05):
 
     positives = [x for x,y in enumerate(y_train) if y==1]
     positives_y = y_train[positives]
@@ -19,6 +18,7 @@ def balance_classes(X_train,y_train, positive_ratio=0.02):
     negatives_x = X_train[negatives]
 
     n_negative = int (((1/positive_ratio) - 1) * len(positives))
+    n_negative = min(len(negatives), n_negative)
 
     print "{0} positive, {1} negative before balancing".format(len(positives), len(negatives))
     print "{0} desired positive ratio, keeping {1} negative".format(positive_ratio, n_negative)
@@ -39,9 +39,14 @@ def train(X_train, X_test, y_train, y_test,clf):
     print "Done, showing predicted images.."
     out_images = util.chunks(out,384*512)
     for image in out_images:
-        end_image = image[:,1].reshape((512,384))
+
+        if len(image.shape) == 1:
+            end_image = image[:].reshape((512,384))
+        else:
+            end_image = image[:,1].reshape((512,384))
+
         print np.mean(end_image)
-        dataset.show_image(end_image)
+        dataset.show_image([end_image,np.where(end_image >= 0.5, 1, 0)])
 
     print "Done."
 
@@ -54,11 +59,12 @@ def features_to_images(features, dim=0):
 if __name__ == "__main__":
     print "Loading X"
     X_train, X_test = features.load_features()
-    #print sum(np.max(X_train, axis=1))
-    #features_to_images(X_train)
+
     print "Loading Y"
     y_train, y_test = features.load_y()
 
     print "Balancing classes"
     X_train,y_train = balance_classes(X_train,y_train)
     train(X_train, X_test, y_train, y_test,LogisticRegression())
+    #train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=100,n_jobs=-1))
+    #train(X_train, X_test, y_train, y_test,SVC(verbose=True,max_iter=10000))
