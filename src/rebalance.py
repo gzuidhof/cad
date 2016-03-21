@@ -3,7 +3,7 @@ import features
 
 # Class rebalancing
 
-def balance_classes(X_train,y_train, positive_ratio=0.05):
+def balance_classes(X_train,y_train, positive_ratio=0.10):
 
     positives = [x for x,y in enumerate(y_train) if y==1]
     positives_y = y_train[positives]
@@ -45,6 +45,8 @@ if __name__ == "__main__":
 
     print "Balancing classes"
     X_train,y_train = balance_classes(X_train,y_train)
+
+
 
     features.write_features((X_train, X_test),"balanced")
     features.write_y((y_train, y_test),"balanced")

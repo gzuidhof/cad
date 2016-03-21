@@ -16,6 +16,7 @@ def train(X_train, X_test, y_train, y_test,clf):
 
     print "Done, now predicting.."
     out = clf.predict_proba(X_test)
+    predict_fully_black(X_test, y_test, out)
 
     print "Done, showing predicted images.."
     out_images = util.chunks(out,384*512)
@@ -31,6 +32,14 @@ def train(X_train, X_test, y_train, y_test,clf):
 
     print "Done."
 
+def predict_fully_black(X_test, y_test, predictions):
+    feature_sums = np.sum(X_test, axis=1)
+    #Fully black indices
+    indices_fully_black = np.where(feature_sums == 0)[0]
+    predictions[indices_fully_black] = 0
+
+
+
 def features_to_images(features, dim=0):
     images = util.chunks(features,384*512)
     for im in images:
@@ -45,5 +54,5 @@ if __name__ == "__main__":
     y_train, y_test = features.load_y("balanced")
 
     #train(X_train, X_test, y_train, y_test,LogisticRegression())
-    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=20,n_jobs=-1))
+    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=100,n_jobs=-1))
     #train(X_train, X_test, y_train, y_test,SVC(verbose=True,max_iter=10000))
