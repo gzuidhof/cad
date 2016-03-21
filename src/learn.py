@@ -34,8 +34,8 @@ def train(X_train, X_test, y_train, y_test,clf):
 
 def predict_fully_black(X_test, y_test, predictions):
     feature_sums = np.sum(X_test, axis=1)
-    #Fully black indices
     indices_fully_black = np.where(feature_sums == 0)[0]
+    #Set the fully black places to zero
     predictions[indices_fully_black] = 0
 
 

@@ -1,5 +1,6 @@
 import numpy as np
 import features
+from tqdm import tqdm
 
 # Class rebalancing
 
@@ -33,6 +34,37 @@ def remove_completely_black(X_train, y_train):
 
     return X_train[indices_to_keep], y_train[indices_to_keep]
 
+def normalize_features(X_train, X_test):
+    n_features = X_train.shape[1]
+
+    feature_sums = np.sum(X_test, axis=1)
+    nonblack_vectors = np.where(feature_sums > 0,1,0)
+    #print nonblack_vectors.shape
+
+    mask = []
+    for x in range(X_test.shape[0]):
+        mask.append([nonblack_vectors[x]]*n_features)
+    mask = np.array(mask)
+
+    X_test_nonblack = X_test[np.where(feature_sums > 0)]
+
+    X = np.concatenate((X_train, X_test_nonblack))
+    print X, X.shape
+
+    mean = np.mean(X,axis=0)
+    std = np.std(X,axis=0)
+
+    for d in tqdm(range(len(X_train))):
+        X_train[d] = (X_train[d] - mean) / std
+    for d in tqdm(range(len(X_test))):
+        X_test[d] = (X_test[d] - mean) / std
+
+    #Make once fully black vectors fully black again
+    X_test = X_test*mask
+
+    return X_train, X_test
+
+
 
 if __name__ == "__main__":
     print "Loading X"
@@ -42,6 +74,9 @@ if __name__ == "__main__":
 
     print "Removing fully black features"
     X_train, y_train = remove_completely_black(X_train, y_train)
+
+    print "Normalizing features"
+    normalize_features(X_train, X_test)
 
     print "Balancing classes"
     X_train,y_train = balance_classes(X_train,y_train)
