@@ -2,6 +2,7 @@ import numpy as np
 import dataset
 import cPickle as pickle
 from tqdm import tqdm
+import cv2
 
 def write_features(features):
     with open(dataset.DATA_FOLDER+"features.p", 'w') as f:
@@ -27,17 +28,48 @@ def get_features(x):
     x2 = np.array(x2)
     x3 = np.array(x1)
 
+    #Determine other features
+    x4 = dist_transform_feature(x1)
+
+
+    # Make the pixel values run from 0 to 1
+    x1 = x1/255
+    x2 = x2/255
+    x3 = x3/255
+
+    #Divide by maximum length minus some magic number
+    x4 = x4/420
+
     x1 = x1.reshape((N,))
     x2 = x2.reshape((N,))
     x3 = x3.reshape((N,))
+    x4 = x4.reshape((N,))
 
     dat = []
     for n in range(N):
-        dat.append([x1[n],x2[n],x3[n]] )
+        dat.append([x1[n],x2[n],x3[n],x4[n]] )
+        #dat.append([x3[n],x4[n]] )
 
     dat = np.array(dat)
 
     return dat
+
+def dist_transform_feature(image):
+    kernel = np.ones((3,3),np.uint8)
+    mask = np.minimum(image, 1)
+
+    #Closing operation
+    closing = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+
+    #Show result of closing
+    #dataset.show_image(closing-mask)
+
+    #Calculate distance transform
+    distance_transform = cv2.distanceTransform(closing, cv2.cv.CV_DIST_L2,5)
+    #dataset.show_image(distance_transform)
+
+    return distance_transform
+
 
 def load_features():
     with open(dataset.DATA_FOLDER+"features.p", 'r') as f:
@@ -47,7 +79,7 @@ def load_y():
     with open(dataset.DATA_FOLDER+"y.p", 'r') as f:
         return np.array(pickle.load(f))
 
-if __name__ == "__main__":
+def generate_features_main():
     print "Loading dataset"
     X_train, X_test, y_train, y_test = dataset.load_dataset()
 
@@ -77,3 +109,10 @@ if __name__ == "__main__":
     print "Writing Y to file"
     write_y((y_train, y_test))
     print "Done."
+
+if __name__ == "__main__":
+    generate_features_main()
+
+    #im = dataset.load_images(["../data/images/1230931003_fl.png"])[0]
+    #dataset.show_image([im,im])
+    #dist_transform_feature(im)

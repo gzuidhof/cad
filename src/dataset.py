@@ -27,6 +27,8 @@ def load_images(filenames):
     return data
 
 def show_image(im):
+    if type(im) is list:
+        im = np.hstack(im)
     plt.figure()
     plt.imshow(im, cmap='Greys_r')
     plt.show()
@@ -43,11 +45,6 @@ if __name__ == "__main__":
     for im in y:
         im[im<=150] = 0
         im[im>150] = 1
-
-    # Make the pixel values run from 0 to 1
-    x1 = [x/255 for x in x1]
-    x2 = [x/255 for x in x2]
-    x3 = [x/255 for x in x3]
 
     X = zip(x1,x2,x3)
 
