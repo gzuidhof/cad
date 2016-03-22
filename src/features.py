@@ -1,8 +1,9 @@
 from __future__ import division
 import numpy as np
 import dataset
-import cPickle as pickle
+import hickle as pickle
 from tqdm import tqdm
+from skimage.feature import blob_dog, blob_log, blob_doh
 import cv2
 
 def write_features(features, name=""):
@@ -31,30 +32,40 @@ def get_features(x):
 
     #Determine other features
 
-    #Distance transform
+    #Distance transform to edge
     x4 = dist_transform_feature(x1)
+    #Distance to ventricles / folds
+    x5 = dist_transform_feature(x1,100)
+
+    #Laplacian of Gaussian blob features
+    x9  = blob_feature(x1, 'log')
+    x10 = blob_feature(x2, 'log')
+    x11 = blob_feature(x3, 'log')
+
+    x12  = blob_feature(x1, 'doh')
+    x13 = blob_feature(x2, 'doh')
+    x14 = blob_feature(x3, 'doh')
+
 
     #EquaLized images
-    x5 = histogram_equalization(x1)
-    x6 = histogram_equalization(x2)
-    x7 = histogram_equalization(x3)
+    x6 = histogram_equalization(x1)
+    x7 = histogram_equalization(x2)
+    x8 = histogram_equalization(x3)
 
     #Show features
     #dataset.show_image([np.vstack((x1,x3)), np.vstack((x2,x4))])
 
+    #This could use a rewrite ;)
 
-    x1 = x1.reshape((N,))
-    x2 = x2.reshape((N,))
-    x3 = x3.reshape((N,))
-    x4 = x4.reshape((N,))
-    x5 = x5.reshape((N,))
-    x6 = x6.reshape((N,))
-    x7 = x7.reshape((N,))
+    features = [x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14]
+
+    #Flatten features
+    features = [f.reshape((N,)) for f in features]
 
     dat = []
     for n in range(N):
-        dat.append([x1[n],x2[n],x3[n],x4[n],x5[n],x6[n],x7[n]] )
-        #dat.append([x1[n],x4[n]] )
+
+        dat.append([f[n] for f in features] )
 
     dat = np.array(dat)
 
@@ -68,9 +79,10 @@ def histogram_equalization(image, adaptive=False):
         image = cv2.equalizeHist(image)
     return image
 
-def dist_transform_feature(image):
+def dist_transform_feature(image, threshold=1):
     kernel = np.ones((3,3),np.uint8)
-    mask = np.minimum(image, 1)
+    mask = np.array(np.where(image >= threshold, 1,0), dtype=np.uint8)
+    #mask = np.minimum(image, 1)
 
     #Closing operation
     closing = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
@@ -83,6 +95,25 @@ def dist_transform_feature(image):
     #dataset.show_image(distance_transform)
 
     return distance_transform
+
+def blob_feature(image, method='log'):
+    if method == 'log':
+        blobs = blob_log(image, )
+    else:
+        blobs = blob_doh(image, )
+
+    blob_image = np.zeros(image.shape)
+
+    #Draw the blobs to an image
+    for blob in blobs:
+        y,x,sigma = blob
+        color = sigma
+        size = int(np.sqrt(2*sigma)) if method == 'log' else sigma
+        cv2.circle(blob_image, (x, y), size, sigma/1,-1)
+
+    #dataset.show_image(blob_image)
+    return blob_image
+
 
 
 def load_features(name=""):
@@ -128,5 +159,5 @@ if __name__ == "__main__":
     generate_features_main()
 
     #im = dataset.load_images(["../data/images/1230931003_fl.png"])[0]
-    #dataset.show_image([im,im])
-    #dist_transform_feature(im)
+    #blobbed = blob_feature(im)
+    #dataset.show_image([im,blobbed])
