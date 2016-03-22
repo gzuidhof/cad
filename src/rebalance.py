@@ -21,11 +21,14 @@ def balance_classes(X_train,y_train, positive_ratio=0.10):
     print "{0} desired positive ratio, keeping {1} negative".format(positive_ratio, n_negative)
 
     indices = np.random.choice(len(negatives),n_negative,replace=False)
-    return  np.concatenate((positives_x,negatives_x[indices])),np.concatenate((positives_y,negatives_y[indices]))
+
+    X, Y = np.concatenate((positives_x,negatives_x[indices])), np.concatenate((positives_y,negatives_y[indices]))
+
+    random_order =np.random.choice(len(X),len(X),replace=False)
+    return X[random_order], Y[random_order]
 
 def remove_completely_black(X_train, y_train):
     feature_sums = np.sum(X_train, axis=1)
-    print feature_sums
 
     #Not fully black indices
     indices_to_keep = np.where(feature_sums > 0)[0]
@@ -49,7 +52,7 @@ def normalize_features(X_train, X_test):
     X_test_nonblack = X_test[np.where(feature_sums > 0)]
 
     X = np.concatenate((X_train, X_test_nonblack))
-    print X, X.shape
+    #print X, X.shape
 
     mean = np.mean(X,axis=0)
     std = np.std(X,axis=0)
@@ -80,8 +83,6 @@ if __name__ == "__main__":
 
     print "Balancing classes"
     X_train,y_train = balance_classes(X_train,y_train)
-
-
 
     features.write_features((X_train, X_test),"balanced")
     features.write_y((y_train, y_test),"balanced")

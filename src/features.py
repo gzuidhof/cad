@@ -31,15 +31,6 @@ def get_features(x):
     #Determine other features
     x4 = dist_transform_feature(x1)
 
-
-    # Make the pixel values run from 0 to 1
-    x1 = x1/255
-    x2 = x2/255
-    x3 = x3/255
-
-    #Divide by maximum length minus some magic number
-    x4 = x4/420
-
     x1 = x1.reshape((N,))
     x2 = x2.reshape((N,))
     x3 = x3.reshape((N,))
@@ -48,7 +39,7 @@ def get_features(x):
     dat = []
     for n in range(N):
         dat.append([x1[n],x2[n],x3[n],x4[n]] )
-        #dat.append([x3[n],x4[n]] )
+        #dat.append([x1[n],x4[n]] )
 
     dat = np.array(dat)
 
