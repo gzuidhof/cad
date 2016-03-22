@@ -7,6 +7,7 @@ import numpy as np
 import util
 import dataset
 from tqdm import tqdm
+import scipy.optimize
 
 def train(X_train, X_test, y_train, y_test,clf, use_probability=True, predict_black=False):
 
@@ -40,8 +41,10 @@ def train(X_train, X_test, y_train, y_test,clf, use_probability=True, predict_bl
     out = predictions
     predict_fully_black(X_test, y_test, out)
 
+    #Threshold optimization
+    decision_boundary = threshold_optimization(out, y_test)
 
-    decision_boundary = 0.5
+    #Apply threshold
     out_binary = np.where(out > decision_boundary, 1,0)
 
     #Split the pixels into the original images again
@@ -50,8 +53,9 @@ def train(X_train, X_test, y_train, y_test,clf, use_probability=True, predict_bl
     y_images = util.chunks(y_test, 384*512)
 
     print "Done, calculating Dice..."
-    dice(out_images_binary, y_images)
 
+    mean, std = dice(out_images_binary, y_images)
+    print "Dice score mean {0}, std: {1}".format(mean, std)
     print "Done, showing predicted images.."
 
     for image in out_images:
@@ -65,6 +69,44 @@ def train(X_train, X_test, y_train, y_test,clf, use_probability=True, predict_bl
 
     print "Done."
 
+def threshold_optimization(p, y):
+    print "Optimizing threshold"
+    y_images = util.chunks(y, 384*512)
+
+    def dice_objective(threshold):
+        p_binary = np.where(p > threshold, 1,0)
+        p_images_binary = util.chunks(p_binary, 384*512)
+
+        mean, std = dice(p_images_binary, y_images)
+        return -mean
+
+    x, v, message = scipy.optimize.fmin_l_bfgs_b(dice_objective, 0.5, approx_grad=True, bounds=[(0, 1)], epsilon=1e-03)
+    print "Optimized, threshold {0}, ? {1}, termination because {2}".format(x,v,message)
+    return x[0]
+
+def threshold_optimization_naive(p,y):
+    print "Optimizing threshold"
+    y_images = util.chunks(y, 384*512)
+
+    candidates = np.arange(0.25,0.75,1/2500)
+
+    def dice_objective(threshold):
+        p_binary = np.where(p > threshold, 1,0)
+        p_images_binary = util.chunks(p_binary, 384*512)
+
+        mean, std = dice(p_images_binary, y_images)
+        return mean
+
+    #score = map(dice_objective,tqdm(candidates))
+    scores = []
+    for t in tqdm(candidates):
+        score = dice_objective(t)
+        scores.append(score)
+    print np.argmax(scores)
+    threshold = candidates[np.argmax(scores)]
+    print "Best threshold ", threshold
+    return threshold
+
 def predict_fully_black(X_test, y_test, predictions):
 
     feature_sums = np.sum(X_test, axis=1)
@@ -74,9 +116,11 @@ def predict_fully_black(X_test, y_test, predictions):
     predictions[indices_fully_black] = 0
 
 def dice(prediction, y):
-    print "Calculating dice score"
-    dices = [dice_score_img(p,t) for p,t in tqdm(zip(prediction,y))]
-    print "Dice score mean {0}, std: {1}".format(np.mean(dices), np.std(dices))
+    dices = [dice_score_img(p,t) for p,t in zip(prediction,y)]
+    mean = np.mean(dices)
+    std = np.std(dices)
+
+    return mean, std
 
 def dice_score_img(p, y):
     return np.sum(p[y == 1]) * 2.0 / (np.sum(p) + np.sum(y))

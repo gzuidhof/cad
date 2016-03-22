@@ -84,5 +84,6 @@ if __name__ == "__main__":
     print "Balancing classes"
     X_train,y_train = balance_classes(X_train,y_train)
 
+    print "Writing to file"
     features.write_features((X_train, X_test),"balanced")
     features.write_y((y_train, y_test),"balanced")
