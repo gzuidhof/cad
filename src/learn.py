@@ -43,6 +43,13 @@ def train(X_train, X_test, y_train, y_test,clf, use_probability=True, predict_bl
     print "Done, showing predicted images.."
     #Split the pixels into the original images again
     out_images = util.chunks(out,384*512)
+    y_images = util.chunks(y_test, 384*512)
+
+    #p_trues = prediction >= 0.5
+    #p = np.zeros(prediction.shape)
+    #p[p_trues] = 1
+
+    dice(out_images, y_images)
 
     for image in out_images:
         end_image = image[:].reshape((512,384))
@@ -66,6 +73,18 @@ def predict_fully_black(X_test, y_test, predictions):
     else:
         predictions[indices_fully_black] = np.array([0,0])
 
+def dice(prediction, y):
+
+    print "Calculating dice score"
+    dices = [dice_score_img(p,t) for p,t in tqdm(zip(prediction,y))]
+    print "Dice score mean {0}, std: {1}".format(np.mean(dices), np.std(dices))
+
+def dice_score_img(prediction, y):
+    p_trues = prediction >= 0.5
+    p = np.zeros(prediction.shape)
+    p[p_trues] = 1
+
+    return np.sum(p[y == 1]) * 2.0 / (np.sum(p) + np.sum(y))
 
 
 def features_to_images(features, dim=0):
@@ -82,5 +101,5 @@ if __name__ == "__main__":
     y_train, y_test = features.load_y("balanced")
 
     train(X_train, X_test, y_train, y_test,LogisticRegression(), predict_black=True)
-    #train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=1000,n_jobs=-1), use_probability=True, predict_black=True)
-    #train(X_train, X_test, y_train, y_test,SVC(verbose=True,max_iter=1000), use_probability=False)
+    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=10,n_jobs=-1), use_probability=True, predict_black=True)
+    #train(X_train, X_test, y_train, y_test,SVC(verbose=True,max_iter=50000), use_probability=False)
