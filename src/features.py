@@ -26,7 +26,7 @@ def get_features(x):
     x1, x2, x3 = x
     x1 = np.array(x1)
     x2 = np.array(x2)
-    x3 = np.array(x1)
+    x3 = np.array(x3)
 
     #Determine other features
     x4 = dist_transform_feature(x1)
