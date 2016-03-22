@@ -4,7 +4,7 @@ import sklearn.cross_validation
 import glob
 import scipy.misc
 import matplotlib.pyplot as plt
-import cPickle as pickle
+import hickle as pickle
 #import tqdm
 
 DATA_FOLDER = "../data/"
