@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 # Class rebalancing
 
-def balance_classes(X_train,y_train, positive_ratio=0.10):
+def balance_classes(X_train,y_train, positive_ratio=0.05):
 
     positives = [x for x,y in enumerate(y_train) if y==1]
     positives_y = y_train[positives]

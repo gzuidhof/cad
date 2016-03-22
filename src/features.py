@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 import dataset
 import cPickle as pickle
@@ -29,21 +30,43 @@ def get_features(x):
     x3 = np.array(x3)
 
     #Determine other features
+
+    #Distance transform
     x4 = dist_transform_feature(x1)
+
+    #EquaLized images
+    x5 = histogram_equalization(x1)
+    x6 = histogram_equalization(x2)
+    x7 = histogram_equalization(x3)
+
+    #Show features
+    #dataset.show_image([np.vstack((x1,x3)), np.vstack((x2,x4))])
+
 
     x1 = x1.reshape((N,))
     x2 = x2.reshape((N,))
     x3 = x3.reshape((N,))
     x4 = x4.reshape((N,))
+    x5 = x5.reshape((N,))
+    x6 = x6.reshape((N,))
+    x7 = x7.reshape((N,))
 
     dat = []
     for n in range(N):
-        dat.append([x1[n],x2[n],x3[n],x4[n]] )
+        dat.append([x1[n],x2[n],x3[n],x4[n],x5[n],x6[n],x7[n]] )
         #dat.append([x1[n],x4[n]] )
 
     dat = np.array(dat)
 
     return dat
+
+def histogram_equalization(image, adaptive=False):
+    if adaptive:
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+        image = clahe.apply(image)
+    else:
+        image = cv2.equalizeHist(image)
+    return image
 
 def dist_transform_feature(image):
     kernel = np.ones((3,3),np.uint8)

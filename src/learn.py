@@ -81,6 +81,6 @@ if __name__ == "__main__":
     print "Loading Y"
     y_train, y_test = features.load_y("balanced")
 
-    #train(X_train, X_test, y_train, y_test,LogisticRegression())
-    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=1000,n_jobs=-1), use_probability=True, predict_black=True)
+    train(X_train, X_test, y_train, y_test,LogisticRegression(), predict_black=True)
+    #train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=1000,n_jobs=-1), use_probability=True, predict_black=True)
     #train(X_train, X_test, y_train, y_test,SVC(verbose=True,max_iter=1000), use_probability=False)
