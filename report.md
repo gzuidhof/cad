@@ -94,9 +94,9 @@ After predictions are made, we optimize the decision boundary. In other words, t
 ## Example classifications
 
 <div id="wrapper" style="text-align: center">   
-<div align="center" style="width:500px; display: inline-block; ">
+<div align="center" style="width:600px; display: inline-block; ">
 <p align="center">
-![true.png](true.png) <br>  *True annotation*<br>
+<!--![true.png](true.png) <br>  *True annotation*<br>
 
 ![lr](logreg.png) <br>  *Logistic Regression*<br>
 
@@ -106,7 +106,20 @@ After predictions are made, we optimize the decision boundary. In other words, t
 
 ![svmlinear](/svmlinear.png) <br> *Linear SVM* <br>
 
-![svmrbf](svmrbf.png) <br> *RBF SVM* <br>
+![svmrbf](svmrbf.png) <br> *RBF SVM* <br> -->
+
+<img src="true.png"/> *Ground truth*<br>
+
+<img src="logreg.png"/>  *Logistic Regression*<br>
+
+<img src="rf200.png"/>   *Random forest*<br>
+
+<img src="ada200.png"/>  *AdaBoost*<br>
+
+<img src="svmlinear.png"/>  *Linear SVM* <br>
+
+<img src="svmrbf.png"/>  *RBF SVM* <br>
+
 </p>
 </div>
 </div>
