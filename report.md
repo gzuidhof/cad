@@ -79,8 +79,18 @@ We limited the SVM iterations to 100,000.
 After predictions are made, we optimize the decision boundary. In other words, the probability threshold above which the point is classified as a white matter lesion. We use the `L-BFGS-B` algorithm found in `scipy.optimize` for this step, with the Dice similarity coefficient as the objective function.
 
 ### Evaluation
-**TODO EVALUATION UITLEG, geef formule dice similarity coefficient score zeker ook**
+The Dice similarity coefficient evaluates the similarity between the predicted image of the classifier with the annotated image. Since the images are mostly black, just comparing the images pixel-wise and calculating the accuracy is not very informative since an all-black image as prediction would still match a lot of the pixels in the annotated image. The Dice similarity coefficient is more balanced, in that it uses the amount of white pixels in the predicted image and the annotated image in its measure instead of also including all black pixels. For each image, the amount of white pixels of the annotated image times two, is divided by the sum of white pixels in both prediction image and annotated image (see code snippet below).
+```python
+def dice(prediction, y):
+    dices = [dice_score_img(p,t) for p,t in zip(prediction,y)]
+    mean = np.mean(dices)
+    std = np.std(dices)
 
+    return mean, std, dices
+
+def dice_score_img(p, y):
+    return np.sum(p[y == 1]) * 2.0 / (np.sum(p) + np.sum(y))
+```
 
 ## Results
 
