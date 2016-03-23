@@ -88,36 +88,22 @@ After predictions are made, we optimize the decision boundary. In other words, t
 | **SVM** (Linear kernel)            |           |                    |
 | **SVM** (RBF kernel)               |           |                f   |
 
-<p align="center">
 ![Boxplot of classifiers](boxplot.png)
 *On the Y axis is the Dice similarity coefficient score.*
-</p>
 
 **TODO mooier opmaken**
 **Links staat telkens de probabilities, rechts na binary classification, zoek ook de annotation er nog even bij en voeg die toe (kun je vast wel op het oog)**
 ## Example classifications
 
-<div align="center">
-<div style="width:68%">![true.png](https://raw.githubusercontent.com/gzuidhof/cad/master/true.png)</div>  *True annotation*<br><br>
-</div>
+![true.png](https://raw.githubusercontent.com/gzuidhof/cad/master/true.png)  *True annotation*<br><br>
 
-<div align="center">
-<div style="width:68%">![lr](https://raw.githubusercontent.com/gzuidhof/cad/master/logreg.png)</div>  *Logistic Regression*<br><br>
-</div>
+![lr](https://raw.githubusercontent.com/gzuidhof/cad/master/logreg.png)  *Logistic Regression*<br><br>
 
+![rf](https://raw.githubusercontent.com/gzuidhof/cad/master/rf200.png)  *Random forest*<br><br>
 
-<div align="center">
-<div style="width:68%">![rf](https://raw.githubusercontent.com/gzuidhof/cad/master/rf200.png)</div>  *Random forest*<br><br>
-</div>
+![ada](https://raw.githubusercontent.com/gzuidhof/cad/master/ada200.png) *AdaBoost*<br><br>
 
-
-<div align="center">
-<div style="width:68%">![ada](https://raw.githubusercontent.com/gzuidhof/cad/master/ada200.png)</div> *AdaBoost*<br><br>
-</div>
-
-<div align="center">
-<div style="width:68%">![svmlinear](https://raw.githubusercontent.com/gzuidhof/cad/master/svmlinear.png)</div>  *Linear SVM*<br><br>
-</div>
+![svmlinear](https://raw.githubusercontent.com/gzuidhof/cad/master/svmlinear.png) *Linear SVM*<br><br>
 
 <p align="center">
 <div style="width:68%">![svmrbf](https://raw.githubusercontent.com/gzuidhof/cad/master/svmrbf0.png)</div>   *RBF SVM* <br><br>
