@@ -143,9 +143,9 @@ def dice_score_img(p, y):
 ## Future improvements
 The performance can probably be increased a lot if you have more samples. 50 samples is a quite small amount. You see a lot of prediction images containing part of the corpus callosum and other normal brain structures, which might be due to the large variance between brain structures, normal or healthy. Having more data might improve classifier performance by recognizing these structures as non-features.
 
-We might also increase performance by altering some hyperparameters. For instance, use a larger neighborhood in features_test. We might not have all the optimal settings yet.
+We might also increase performance adding features that use the neigborhood of pixels.
 
-Editing the algorithms we use a bit could help in more ways. We use some standard methods for blobness measures, and use only circular blobs. Since not al WMLs are circular, although clumps of white pixels together, we could try a blobness measure that is not circular.
+Editing the algorithms we use a bit could help in more ways. We only use methods for blobness that draw the blobs circular on the feature map. Since this throws out some information, we could try a blobness measure that is not circular.
 
 We used parameter optimization of classifiers on the test set, by lack of a validation set. This could cause overfitting on the test set, so a future improvement is to use a validation set and reduce the risk of overfitting of the parameters.
 
