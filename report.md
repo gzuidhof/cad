@@ -98,30 +98,29 @@ After predictions are made, we optimize the decision boundary. In other words, t
 ## Example classifications
 
 <div align="center">
-<div style="width:68%">![true.png](true.png)</div>  *True annotation*<br><br>
+<div style="width:68%">![true.png](https://raw.githubusercontent.com/gzuidhof/cad/master/true.png)</div>  *True annotation*<br><br>
 </div>
 
 <div align="center">
-<div style="width:68%">![lr](logreg.png)</div>  *Logistic Regression*<br><br>
-</div>
-
-
-<div align="center">
-<div style="width:68%">![rf](rf200.png)</div>  *Random forest*<br><br>
+<div style="width:68%">![lr](https://raw.githubusercontent.com/gzuidhof/cad/master/logreg.png)</div>  *Logistic Regression*<br><br>
 </div>
 
 
 <div align="center">
-<div style="width:68%">![ada](ada200.png)</div> *AdaBoost*<br><br>
+<div style="width:68%">![rf](https://raw.githubusercontent.com/gzuidhof/cad/master/rf200.png)</div>  *Random forest*<br><br>
+</div>
+
+
+<div align="center">
+<div style="width:68%">![ada](https://raw.githubusercontent.com/gzuidhof/cad/master/ada200.png)</div> *AdaBoost*<br><br>
 </div>
 
 <div align="center">
-<div style="width:68%">![svmlinear](svmlinear.png)</div>  *Linear SVM*<br><br>
+<div style="width:68%">![svmlinear](https://raw.githubusercontent.com/gzuidhof/cad/master/svmlinear.png)</div>  *Linear SVM*<br><br>
 </div>
 
 <p align="center">
-<div style="width:68%">![svmrbf](svmrbf.png)</div><br>  
-*RBF SVM*
+<div style="width:68%">![svmrbf](https://raw.githubusercontent.com/gzuidhof/cad/master/svmrbf0.png)</div>   *RBF SVM* <br><br>
 </p>
 
 
