@@ -108,17 +108,23 @@ After predictions are made, we optimize the decision boundary. In other words, t
 
 ![svmrbf](svmrbf.png) <br> *RBF SVM* <br> -->
 
-<img src="true.png"/> *Ground truth*<br>
+<img src="true.png"/> 
+*Ground truth*<br>
 
-<img src="logreg.png"/>  *Logistic Regression*<br>
+<img src="logreg.png"/>   
+*Logistic Regression*<br>
 
-<img src="rf200.png"/>   *Random forest*<br>
+<img src="rf200.png"/>    
+*Random forest*<br>
 
-<img src="ada200.png"/>  *AdaBoost*<br>
+<img src="ada200.png"/>   
+*AdaBoost*<br>
 
-<img src="svmlinear.png"/>  *Linear SVM* <br>
+<img src="svmlinear.png"/>   
+*Linear SVM* <br>
 
-<img src="svmrbf.png"/>  *RBF SVM* <br>
+<img src="svmrbf.png"/>  
+*RBF SVM* <br>
 
 </p>
 </div>
