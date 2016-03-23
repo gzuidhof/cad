@@ -2,10 +2,10 @@ import numpy as np
 import features
 from tqdm import tqdm
 
-# Class rebalancing
+# Class rebalancing, black removal and normalization
 
 def balance_classes(X_train,y_train, positive_ratio=0.05):
-
+    np.random.seed(1337)
     positives = [x for x,y in enumerate(y_train) if y==1]
     positives_y = y_train[positives]
     positives_x = X_train[positives]

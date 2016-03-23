@@ -42,10 +42,13 @@ def get_features(x):
     x10 = blob_feature(x2, 'log')
     x11 = blob_feature(x3, 'log')
 
-    x12  = blob_feature(x1, 'doh')
+    #Determinant of Hessian blob features
+    x12 = blob_feature(x1, 'doh')
     x13 = blob_feature(x2, 'doh')
     x14 = blob_feature(x3, 'doh')
 
+    #Fraction of maximum pixel feature of FLAIR
+    x15 = fraction_of_max_feature(x3)
 
     #EquaLized images
     x6 = histogram_equalization(x1)
@@ -57,7 +60,7 @@ def get_features(x):
 
     #This could use a rewrite ;)
 
-    features = [x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14]
+    features = [x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15]
 
     #Flatten features
     features = [f.reshape((N,)) for f in features]
@@ -95,6 +98,12 @@ def dist_transform_feature(image, threshold=1):
     #dataset.show_image(distance_transform)
 
     return distance_transform
+
+
+#Fraction of the maximum pixel value, to some high power.
+def fraction_of_max_feature(image):
+    im_max = np.max(image)
+    return (image/im_max)**4
 
 def blob_feature(image, method='log'):
     if method == 'log':
