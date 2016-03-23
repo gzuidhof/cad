@@ -2,22 +2,29 @@
 
 ### Assignment week 7, detection of white matter lesions
 
-Guido Zuidhof (s4160703), Robbert van der Gugten (s??) and Inez Wijnands.  
+Guido Zuidhof (s4160703), Robbert van der Gugten (s4137140) and Inez Wijnands (s4149696).  
 23/3/2016
 
 ----
 ## Introduction
 
 ### Goal
+This assignment involves the detection of white matter lesions (WMLs) in the brain from MR images. Classifications are made on pixel level with pixel based features, like brightness value, distance transforms and a blobness measure. There are 50 samples of 2D slices of scans available, each containing three images as input (T1-weighted, T2-weighted and FLAIR-weighted) and fourth an annotated image where the actual WMLs are located, which is the ground truth, which makes 200 images in total. All images have the same size: 384 x 512 pixels.
+
+The goal is engineering informative features that can be used to classify where WMLs are located, and evaluate the predictions using the annotated images.
 
 ### Implementation
-**LINK et al, zeggen welke libraries gebruikt zijn waarvoor**
-
+We refer to our Git repository (https://github.com/gzuidhof/cad) for our source code. We make use of the following dependencies:
+* **Python 2.7**
+* **scikit-learn** ML stack (sklearn, numpy, scipy, matplotlib, skimage): analysis and machine learning functions
+* **OpenCV2**: morphological editing functions, used a lot in preprocessing
+* **hickle** (pickle or cPickle can be used instead): read and write files
+* **tqdm**: progress bars
 
 ## Method
 
 ### Feature Engineering
-We used a 15-dimensional feature set. **verhaal dat we pixel based features gebruiken, zoals in readme op github**
+We used a 15-dimensional feature set. We used pixel based features based on the characteristics of WMLs and the nature of the input images. WMLs typically have a high intensity, usually a blob-like structure and are located in the white matter, thus most likely some distance from the outer edge of the cortex. We use these characteristics in our feature engineering:
 
 * **Intensity features**, the pixel values of the T1, T2 and FLAIR-weighted images (3x).
 * **Distance transforms** to brain edge and folds/ventricles (2x).
@@ -38,10 +45,9 @@ We used a 15-dimensional feature set. **verhaal dat we pixel based features gebr
       distance_transform = cv2.distanceTransform(closing, cv2.cv.CV_DIST_L2,5)
 
       return distance_transform
-
 ```
 * **Blobness measures**, both Laplacian of Gaussian (`skimage.feature.blob_log`) and Determinant of Hessian ( `skimage.feature.blob_doh`). For every pixel the value of this feature is set to the size of the blob the pixel is part of (6x).
-* **Histogram equalized intensities**. Intensity values of T1, T2 and FLAIR-weighted images after histogram equalization (3x). We also applied contrast limited adaptive histogram equalization (CLAHE), but this did not improve the classification result and was thus omitted.
+* **Histogram equalized intensities**. This function is useful when the pixel values of an image are clustered in a specific range only. The function maps the intensity distributions to a wider and more uniform distribution, thus increasing the contrast of the image by profiting of the whole range of values. We used the intensity values of T1, T2 and FLAIR-weighted images after histogram equalization (3x) as features. We also applied contrast limited adaptive histogram equalization (CLAHE). Instead of normal histogram equalization which uses the global contrast of an image, CLAHE does this locally. However, this did not improve the classification result and was thus omitted.
 * **Fraction of max feature**. We found that often the lesions were the brightest pixels in FLAIR-weighted images. This feature is a sort of inverse distance measure for every pixel to this intensity value, dramatized by performing some arbitrary high power, we used 4 (see code snippet below).  
 
 ```python
@@ -97,7 +103,7 @@ After predictions are made, we optimize the decision boundary. In other words, t
 <div align="center" style="width:600px; display: inline-block; ">
 <p align="center">
 
-<img src="true.png"/><br> 
+<img src="true.png"/><br>
 <b>Ground truth</b>
 
 <img src="logreg.png"/><br>   
@@ -106,7 +112,7 @@ After predictions are made, we optimize the decision boundary. In other words, t
 <img src="rf200.png"/><br>    
 <b>Random forest</b>
 
-<img src="ada200.png"/><br> 
+<img src="ada200.png"/><br>
 
 <b>AdaBoost</b>
 
