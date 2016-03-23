@@ -1,6 +1,6 @@
 from __future__ import division
 from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.linear_model import LogisticRegression
 import features
 import numpy as np
@@ -140,5 +140,6 @@ if __name__ == "__main__":
     y_train, y_test = features.load_y("balanced")
 
     #train(X_train, X_test, y_train, y_test,LogisticRegression(), predict_black=True)
-    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=10,n_jobs=-1), use_probability=True, predict_black=True)
+    #train(X_train, X_test, y_train, y_test,AdaBoostClassifier(random_state=42), predict_black=True)
+    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=100,n_jobs=-1,random_state=42), use_probability=True, predict_black=True)
     #train(X_train, X_test, y_train, y_test,SVC(verbose=True,max_iter=50000), use_probability=False)
