@@ -65,7 +65,7 @@ We used 5 different classifiers:
 * **Support Vector Machine Linear Kernel** - Finds the best fit in the training set using linear separators. New points are classified as the region they lie in, see figure for an example.
 * **Support Vector Machine RBF Kernel** - Same as above, only the separators are non-linear. See figure for example.  <br><br>
 <p align="center">
-  ![svm_kernels](svm_kernels.jpg)
+  ![svm_kernels](svm_kernels.jpg)  
   *Linear versus non-linear kernel SVM decision boundaries.*
 </p>
 
@@ -88,8 +88,10 @@ After predictions are made, we optimize the decision boundary. In other words, t
 | **SVM** (Linear kernel)            |           |                    |
 | **SVM** (RBF kernel)               |           |                f   |
 
-![Boxplot of classifiers](boxplot.png)
+<p align="center">
+![Boxplot of classifiers](boxplot.png)  
 *On the Y axis is the Dice similarity coefficient score.*
+</p>
 
 **TODO mooier opmaken**
 **Links staat telkens de probabilities, rechts na binary classification, zoek ook de annotation er nog even bij en voeg die toe (kun je vast wel op het oog)**
@@ -103,11 +105,9 @@ After predictions are made, we optimize the decision boundary. In other words, t
 
 ![ada](https://raw.githubusercontent.com/gzuidhof/cad/master/ada200.png) *AdaBoost*<br><br>
 
-![svmlinear](https://raw.githubusercontent.com/gzuidhof/cad/master/svmlinear.png) *Linear SVM*<br><br>
+![svmlinear](https://raw.githubusercontent.com/gzuidhof/cad/master/svmlinear.png) *Linear SVM* <br><br>
 
-<p align="center">
-<div style="width:68%">![svmrbf](https://raw.githubusercontent.com/gzuidhof/cad/master/svmrbf0.png)</div>   *RBF SVM* <br><br>
-</p>
+![svmrbf](https://raw.githubusercontent.com/gzuidhof/cad/master/svmrbf0.png) *RBF SVM* <br><br>
 
 
 
