@@ -8,12 +8,12 @@ Guido Zuidhof (s4160703), Robbert van der Gugten (s4137140) and Inez Wijnands (s
 ----
 ## Introduction
 
-### Goal
+#### Goal
 This assignment involves the detection of white matter lesions (WMLs) in the brain from MR images. Classifications are made on pixel level with pixel based features, like brightness value, distance transforms and a blobness measure. There are 50 samples of 2D slices of scans available, each containing three images as input (T1-weighted, T2-weighted and FLAIR-weighted) and fourth an annotated image where the actual WMLs are located, which is the ground truth, which makes 200 images in total. All images have the same size: 384 x 512 pixels.
 
 The goal is to best classify where WMLs are located, and evaluate the predictions using the annotated images. Engineering informative features is an important part of this.
 
-### Implementation
+#### Implementation
 We refer to our [Git repository](https://github.com/gzuidhof/cad) for our source code. We make use of the following dependencies:
 * **Python 2.7**
 * **scikit-learn** ML stack (sklearn, numpy, scipy, matplotlib, skimage): analysis and machine learning functions
@@ -23,7 +23,7 @@ We refer to our [Git repository](https://github.com/gzuidhof/cad) for our source
 
 ## Method
 
-### Feature Engineering
+#### Feature Engineering
 We used a 15-dimensional feature set. We used pixel based features based on the characteristics of WMLs and the nature of the input images. WMLs typically have a high intensity, usually a blob-like structure and are located in the white matter, thus most likely some distance from the outer edge of the cortex. We use these characteristics in our feature engineering:
 
 * **Intensity features**, the pixel values of the T1, T2 and FLAIR-weighted images (3x).
@@ -56,13 +56,13 @@ def fraction_of_max_feature(image):
     return (image/im_max)**4
 ```
 
-### Selection
+#### Selection
 We removed all points that had a completely empty feature vector (sum=0) from the train set, these are the dark points outside of the brain in the image. This removes around 4 million pixels out of 6.5 million. Furthermore, we remove negative cases to slightly rebalance the dataset. We experimented with different fractions of positive cases, and ended up with a 5% share of positive cases resulting in the best performance.
 
-### Normalization
+#### Normalization
 We normalize all features so that they have zero mean and unit-variance. So for every feature dimension `x:= (x-mean(x))/std(x)`. Here, we are careful not to touch the completely black pixels in the test set.
 
-### Classification
+#### Classification
 We used 5 different classifiers:
 
 * **Logistic Regression** - A generalized linear model which uses a logistic function to estimate probabilities for classification.
@@ -75,10 +75,10 @@ We used 5 different classifiers:
 
 We limited the SVM iterations to 10,000 due to time constraints. We also ran both with a 100k iteration maximum with cross validation enabled to enable probability output, but these did not finish in time (we will update the values on the GitHub page of the report).
 
-### Postprocessing (threshold optimization)
+#### Postprocessing (threshold optimization)
 After predictions are made, we optimize the decision boundary. In other words, the probability threshold above which the point is classified as a white matter lesion. We use the `L-BFGS-B` algorithm found in `scipy.optimize` for this step, with the Dice similarity coefficient as the objective function.
 
-### Evaluation
+#### Evaluation
 The Dice similarity coefficient evaluates the similarity between the predicted image of the classifier with the annotated image. Since the images are mostly black, just comparing the images pixel-wise and calculating the accuracy is not very informative since an all-black image as prediction would still match a lot of the pixels in the annotated image. The Dice similarity coefficient is more balanced, in that it uses the amount of white pixels in the predicted image and the annotated image in its measure instead of also including all black pixels. For each image, the amount of white pixels of the annotated image times two, is divided by the sum of white pixels in both prediction image and annotated image (see code snippet below).
 ```python
 def dice(prediction, y):
@@ -105,9 +105,8 @@ def dice_score_img(p, y):
 ![Boxplot of classifiers](boxplot.png)  <br>
 *On the Y axis is the Dice similarity coefficient score.*
 
-**TODO mooier opmaken**
-**Links staat telkens de probabilities, rechts na binary classification**
-## Example classifications
+#### Example classifications
+On the left you can see the probabilities for either class as predicted by the model, on the right you can see the binary thresholded version of this. The first image is the ground truth.
 
 <div id="wrapper" style="text-align: center">   
 <div align="center" style="width:600px; display: inline-block; ">
@@ -135,18 +134,18 @@ def dice_score_img(p, y):
 </div>
 </div>
 
-
-
-
-**TODO UITLEG, RF IS BESTE, miss kun je bedenken waarom?**
+The best performing model is the Random Forest classifier, noted must be that the number of estimates parameter of this method was set to a huge value (200, taking around 14GB of memory to compute). With a lower setting (10) it also achieved better performance than the Logistic Regression model.
 
 ## Future improvements
+
+#### More data
 The performance can probably be increased a lot if you have more samples. 50 samples is a quite small amount. You see a lot of prediction images containing part of the corpus callosum and other normal brain structures, which might be due to the large variance between brain structures, normal or healthy. Having more data might improve classifier performance by recognizing these structures as non-features.
 
-We might also increase performance adding features that use the neigborhood of pixels.
+#### Better features
 
-Editing the algorithms we use a bit could help in more ways. We only use methods for blobness that draw the blobs circular on the feature map. Since this throws out some information, we could try a blobness measure that is not circular.
-
-We used parameter optimization of classifiers on the test set, by lack of a validation set. This could cause overfitting on the test set, so a future improvement is to use a validation set and reduce the risk of overfitting of the parameters.
+Feature-wise we can make big gains. We might increase performance by adding features that use the neigborhood of pixels. Editing the existing we use a bit could help in more ways. We only use methods for blobness that draw the blobs circular on a feature map. Since this throws out some information, we could try a blobness measure that is not circular. Also, aside from only having the size of the blob as pixel feature, the distance to the center could also be informative.
 
 We only used supervised feature extraction based on known characteristics of WMLs or what we could think of ourselves, but we might also want to look into unsupervised feature extraction, since such a method might find informative features we did not.
+
+#### Parameter optimization
+The (hyper)parameters of our method were hardly optimized, these could be optimized on a validation set.
