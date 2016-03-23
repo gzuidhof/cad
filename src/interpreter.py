@@ -18,7 +18,7 @@ def boxplot(data,labels):
         print labels,np.mean(file),np.std(file)
 
 if __name__ == "__main__":
-    filenames = ['logreg_dice.pkl','rf200_dice.pkl','adaboost200_dice.pkl']
+    filenames = ['logreg_dice.pkl','rf200_dice.pkl','adaboost200_dice.pkl','svmlinear_dice.pkl','svmrbf_dice.pkl']
     data = load_data(filenames)
-    boxplot(data,['LogReg','rf200','AdaBoost200'])
+    boxplot(data,['LogReg','rf200','AdaBoost200','SVM Linear', 'SVM RBF'])
     plt.show()
