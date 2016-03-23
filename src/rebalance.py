@@ -70,7 +70,7 @@ def normalize_features(X_train, X_test):
 
 
 if __name__ == "__main__":
-    print "Loading X"
+    print "\nLoading X"
     X_train, X_test = features.load_features()
     print "Loading Y"
     y_train, y_test = features.load_y()

@@ -134,7 +134,7 @@ def load_y(name=""):
         return np.array(pickle.load(f))
 
 def generate_features_main():
-    print "Loading dataset"
+    print "\nLoading dataset"
     X_train, X_test, y_train, y_test = dataset.load_dataset()
 
     print "Creating features of train set ({} images)".format(len(X_train))
