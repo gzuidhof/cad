@@ -96,35 +96,27 @@ After predictions are made, we optimize the decision boundary. In other words, t
 <div id="wrapper" style="text-align: center">   
 <div align="center" style="width:600px; display: inline-block; ">
 <p align="center">
-<!--![true.png](true.png) <br>  *True annotation*<br>
 
-![lr](logreg.png) <br>  *Logistic Regression*<br>
+<img src="true.png"/><br> 
+<b>Ground truth</b>
 
-![rf](rf200.png) <br>  *Random forest*<br>
+<img src="logreg.png"/><br>   
+<b>Logistic Regression</b>
 
-![ada](ada200.png) <br> *AdaBoost*<br>
+<img src="rf200.png"/><br>    
+<b>Random forest</b>
 
-![svmlinear](/svmlinear.png) <br> *Linear SVM* <br>
+<img src="ada200.png"/><br> 
 
-![svmrbf](svmrbf.png) <br> *RBF SVM* <br> -->
+<b>AdaBoost</b>
 
-<img src="true.png"/> 
-*Ground truth*<br>
+<img src="svmlinear.png"/><br>  
 
-<img src="logreg.png"/>   
-*Logistic Regression*<br>
+<b>Linear SVM</b>
 
-<img src="rf200.png"/>    
-*Random forest*<br>
+<img src="svmrbf.png"/><br>  
 
-<img src="ada200.png"/>   
-*AdaBoost*<br>
-
-<img src="svmlinear.png"/>   
-*Linear SVM* <br>
-
-<img src="svmrbf.png"/>  
-*RBF SVM* <br>
+<b>RBF SVM</b>
 
 </p>
 </div>
