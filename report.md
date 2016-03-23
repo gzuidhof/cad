@@ -106,7 +106,7 @@ def dice_score_img(p, y):
 *On the Y axis is the Dice similarity coefficient score.*
 
 **TODO mooier opmaken**
-**Links staat telkens de probabilities, rechts na binary classification, zoek ook de annotation er nog even bij en voeg die toe (kun je vast wel op het oog)**
+**Links staat telkens de probabilities, rechts na binary classification**
 ## Example classifications
 
 <div id="wrapper" style="text-align: center">   
@@ -141,9 +141,12 @@ def dice_score_img(p, y):
 **TODO UITLEG, RF IS BESTE, miss kun je bedenken waarom?**
 
 ## Future improvements
-Meer data
-Meer neighborhood features_test
-Betere blobness measures (niet ronde blobs)
-Parameter optimization van classifiers (op validatieset, niet testset)
-Unsupervised feature extraction (coates?)
-Je kan er vast zelf ook nog wel wat bedenken
+The performance can probably be increased a lot if you have more samples. 50 samples is a quite small amount. You see a lot of prediction images containing part of the corpus callosum and other normal brain structures, which might be due to the large variance between brain structures, normal or healthy. Having more data might improve classifier performance by recognizing these structures as non-features.
+
+We might also increase performance by altering some hyperparameters. For instance, use a larger neighborhood in features_test. We might not have all the optimal settings yet.
+
+Editing the algorithms we use a bit could help in more ways. We use some standard methods for blobness measures, and use only circular blobs. Since not al WMLs are circular, although clumps of white pixels together, we could try a blobness measure that is not circular.
+
+We used parameter optimization of classifiers on the test set, by lack of a validation set. This could cause overfitting on the test set, so a future improvement is to use a validation set and reduce the risk of overfitting of the parameters.
+
+We only used supervised feature extraction based on known characteristics of WMLs or what we could think of ourselves, but we might also want to look into unsupervised feature extraction, since such a method might find informative features we did not.
