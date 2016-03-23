@@ -144,7 +144,7 @@ if __name__ == "__main__":
     y_train, y_test = features.load_y("balanced")
 
     #train(X_train, X_test, y_train, y_test,LogisticRegression(), predict_black=True,name="logreg")
-    train(X_train, X_test, y_train, y_test,AdaBoostClassifier(n_estimators=200,random_state=42), predict_black=True,name="adaboost200")
+    #train(X_train, X_test, y_train, y_test,AdaBoostClassifier(n_estimators=200,random_state=42), predict_black=True,name="adaboost200")
     #train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=250,n_jobs=-1,random_state=42), use_probability=True, predict_black=True,name="rf200")
-    #train(X_train, X_test, y_train, y_test,SVC(verbose=2,max_iter=100000,probability=True), use_probability=True,name="svmrbf")
-    #train(X_train, X_test, y_train, y_test,SVC(kernel="linear",verbose=2,max_iter=100000,probability=True), use_probability=True,name="svmlinear")
+    #train(X_train, X_test, y_train, y_test,SVC(verbose=2,max_iter=10000), use_probability=False,name="svmrbf")
+    train(X_train, X_test, y_train, y_test,SVC(kernel="linear",verbose=2,max_iter=10000), use_probability=False,name="svmlinear")

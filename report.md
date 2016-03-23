@@ -97,10 +97,10 @@ def dice_score_img(p, y):
 | Classifier                         | Mean Dice | Standard Deviation |
 |------------------------------------|-----------|--------------------|
 | **Logistic Regression**            | 0.36      | 0.23               |
-| **Random Forest** (200 estimators) | **0.51**  | **0.18**       |
+| **Random Forest** (200 estimators) | **0.51**  | **0.18**           |
 | **AdaBoost** (200 estimators)      | 0.48      | 0.20               |
 | **SVM** (Linear kernel)            | 0.02      | 0.02               |
-| **SVM** (RBF kernel)               |           |                f   |
+| **SVM** (RBF kernel)               | 0.07      | 0.06               |
 
 ![Boxplot of classifiers](boxplot.png)  <br>
 *On the Y axis is the Dice similarity coefficient score.*
