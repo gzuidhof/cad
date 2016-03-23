@@ -11,10 +11,10 @@ Guido Zuidhof (s4160703), Robbert van der Gugten (s4137140) and Inez Wijnands (s
 ### Goal
 This assignment involves the detection of white matter lesions (WMLs) in the brain from MR images. Classifications are made on pixel level with pixel based features, like brightness value, distance transforms and a blobness measure. There are 50 samples of 2D slices of scans available, each containing three images as input (T1-weighted, T2-weighted and FLAIR-weighted) and fourth an annotated image where the actual WMLs are located, which is the ground truth, which makes 200 images in total. All images have the same size: 384 x 512 pixels.
 
-The goal is engineering informative features that can be used to classify where WMLs are located, and evaluate the predictions using the annotated images.
+The goal is to best classify where WMLs are located, and evaluate the predictions using the annotated images. Engineering informative features is an important part of this.
 
 ### Implementation
-We refer to our Git repository (https://github.com/gzuidhof/cad) for our source code. We make use of the following dependencies:
+We refer to our [Git repository](https://github.com/gzuidhof/cad) for our source code. We make use of the following dependencies:
 * **Python 2.7**
 * **scikit-learn** ML stack (sklearn, numpy, scipy, matplotlib, skimage): analysis and machine learning functions
 * **OpenCV2**: morphological editing functions, used a lot in preprocessing
@@ -73,7 +73,7 @@ We used 5 different classifiers:
   ![svm_kernels](svm_kernels.jpg) <br>  
   *Linear versus non-linear kernel SVM decision boundaries.*
 
-We limited the SVM iterations to 100,000.
+We limited the SVM iterations to 10,000 due to time constraints. We also ran both with a 100k iteration maximum with cross validation enabled to enable probability output, but these did not finish in time (we will update the values on the GitHub page of the report).
 
 ### Postprocessing (threshold optimization)
 After predictions are made, we optimize the decision boundary. In other words, the probability threshold above which the point is classified as a white matter lesion. We use the `L-BFGS-B` algorithm found in `scipy.optimize` for this step, with the Dice similarity coefficient as the objective function.
@@ -97,9 +97,9 @@ def dice_score_img(p, y):
 | Classifier                         | Mean Dice | Standard Deviation |
 |------------------------------------|-----------|--------------------|
 | **Logistic Regression**            | 0.36      | 0.23               |
-| **Random Forest** (200 estimators) | **0.51**      | **0.18**               |
+| **Random Forest** (200 estimators) | **0.51**  | **0.18**       |
 | **AdaBoost** (200 estimators)      | 0.48      | 0.20               |
-| **SVM** (Linear kernel)            |           |                    |
+| **SVM** (Linear kernel)            | 0.02      | 0.02               |
 | **SVM** (RBF kernel)               |           |                f   |
 
 ![Boxplot of classifiers](boxplot.png)  <br>
