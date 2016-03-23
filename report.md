@@ -98,20 +98,20 @@ After predictions are made, we optimize the decision boundary. In other words, t
 ## Example classifications
 
 <p align="center">
-<img style="width:48%" src="img/true.png"></img><img style="width:48%" src="img/logreg.png"></img>
+<img style="width:48%" src="true.png"></img><img style="width:48%" src="logreg.png"></img>
 <br>
 *True annotation, Logistic regression*
 </p>
 
 
 <p align="center">
-<img style="width:48%" src="img/rf200.png"></img><img style="width:48%" src="img/ada200.png"></img>
+<img style="width:48%" src="rf200.png"></img><img style="width:48%" src="ada200.png"></img>
 <br>
 *Random Forest, AdaBoost*
 </p>
 
 <p align="center">
-<img style="width:48%" src="img/rf200.png"></img><img style="width:48%" src="img/ada200.png"></img>
+<img style="width:48%" src="rf200.png"></img><img style="width:48%" src="ada200.png"></img>
 <br>
 *SVM (linear kernel), SVM (RBF kernel)*
 </p>
