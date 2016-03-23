@@ -93,17 +93,23 @@ After predictions are made, we optimize the decision boundary. In other words, t
 **Links staat telkens de probabilities, rechts na binary classification, zoek ook de annotation er nog even bij en voeg die toe (kun je vast wel op het oog)**
 ## Example classifications
 
-![true.png](true.png) <br>  *True annotation*<br><br>
+<div id="wrapper" style="text-align: center">   
+<div align="center" style="width:500px; display: inline-block; ">
+<p align="center">
+![true.png](true.png) <br>  *True annotation*<br>
 
-![lr](logreg.png) <br>  *Logistic Regression*<br><br>
+![lr](logreg.png) <br>  *Logistic Regression*<br>
 
-![rf](rf200.png) <br>  *Random forest*<br><br>
+![rf](rf200.png) <br>  *Random forest*<br>
 
-![ada](ada200.png) <br> *AdaBoost*<br><br>
+![ada](ada200.png) <br> *AdaBoost*<br>
 
-![svmlinear](/svmlinear.png) <br> *Linear SVM* <br><br>
+![svmlinear](/svmlinear.png) <br> *Linear SVM* <br>
 
-![svmrbf](svmrbf.png) <br> *RBF SVM* <br><br>
+![svmrbf](svmrbf.png) <br> *RBF SVM* <br>
+</p>
+</div>
+</div>
 
 
 
