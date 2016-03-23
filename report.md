@@ -113,7 +113,7 @@ def dice_score_img(p, y):
 <div align="center" style="width:600px; display: inline-block; ">
 <p align="center">
 
-<img src="data/images/102061932001_an.png"/><br>
+<img src="102061932001_an.png"/><br>
 <b>Ground truth</b>
 
 <img src="logreg.png"/><br>   
