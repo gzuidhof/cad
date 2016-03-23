@@ -97,24 +97,34 @@ After predictions are made, we optimize the decision boundary. In other words, t
 **Links staat telkens de probabilities, rechts na binary classification, zoek ook de annotation er nog even bij en voeg die toe (kun je vast wel op het oog)**
 ## Example classifications
 
+<div align="center">
+<div style="width:68%">![true.png](true.png)</div>  *True annotation*<br><br>
+</div>
+
+<div align="center">
+<div style="width:68%">![lr](logreg.png)</div>  *Logistic Regression*<br><br>
+</div>
+
+
+<div align="center">
+<div style="width:68%">![rf](rf200.png)</div>  *Random forest*<br><br>
+</div>
+
+
+<div align="center">
+<div style="width:68%">![ada](ada200.png)</div> *AdaBoost*<br><br>
+</div>
+
+<div align="center">
+<div style="width:68%">![svmlinear](svmlinear.png)</div>  *Linear SVM*<br><br>
+</div>
+
 <p align="center">
-<img style="width:48%" src="true.png"></img><img style="width:48%" src="logreg.png"></img>
-<br>
-*True annotation, Logistic regression*
+<div style="width:68%">![svmrbf](svmrbf.png)</div><br>  
+*RBF SVM*
 </p>
 
 
-<p align="center">
-<img style="width:48%" src="rf200.png"></img><img style="width:48%" src="ada200.png"></img>
-<br>
-*Random Forest, AdaBoost*
-</p>
-
-<p align="center">
-<img style="width:48%" src="rf200.png"></img><img style="width:48%" src="ada200.png"></img>
-<br>
-*SVM (linear kernel), SVM (RBF kernel)*
-</p>
 
 
 **TODO UITLEG, RF IS BESTE, miss kun je bedenken waarom?**
