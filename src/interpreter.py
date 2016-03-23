@@ -14,11 +14,11 @@ def boxplot(data,labels):
     plt.boxplot(data)
     xtickNames = plt.setp(ax1, xticklabels=labels)
     plt.setp(xtickNames, rotation=25, fontsize=12)
-    # for file in data:
-    #     print np.mean(file),np.std(file)
+    for file in data:
+        print labels,np.mean(file),np.std(file)
 
 if __name__ == "__main__":
-    filenames = ['logreg_dice.pkl','rf150_dice.pkl','adaboost_dice.pkl']
+    filenames = ['logreg_dice.pkl','rf200_dice.pkl','adaboost200_dice.pkl']
     data = load_data(filenames)
-    boxplot(data,['LogReg','rf150','AdaBoost'])
+    boxplot(data,['LogReg','rf200','AdaBoost200'])
     plt.show()
