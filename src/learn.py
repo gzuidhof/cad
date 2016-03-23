@@ -2,6 +2,7 @@ from __future__ import division
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.externals import joblib
 import features
 import numpy as np
 import util
@@ -9,7 +10,7 @@ import dataset
 from tqdm import tqdm
 import scipy.optimize
 
-def train(X_train, X_test, y_train, y_test,clf, use_probability=True, predict_black=False):
+def train(X_train, X_test, y_train, y_test,clf, use_probability=True, predict_black=False,name="NoName"):
 
     #print np.array(X_train).shape
     #print y_train.shape
@@ -54,8 +55,11 @@ def train(X_train, X_test, y_train, y_test,clf, use_probability=True, predict_bl
 
     print "Done, calculating Dice..."
 
-    mean, std = dice(out_images_binary, y_images)
+    mean, std, dices = dice(out_images_binary, y_images)
     print "Dice score mean {0}, std: {1}".format(mean, std)
+
+    joblib.dump(dices, dataset.DATA_FOLDER+name+"_dice.pkl")
+
     print "Done, showing predicted images.."
 
     for image in out_images:
@@ -77,7 +81,7 @@ def threshold_optimization(p, y):
         p_binary = np.where(p > threshold, 1,0)
         p_images_binary = util.chunks(p_binary, 384*512)
 
-        mean, std = dice(p_images_binary, y_images)
+        mean, std, dices = dice(p_images_binary, y_images)
         return -mean
 
     x, v, message = scipy.optimize.fmin_l_bfgs_b(dice_objective, 0.5, approx_grad=True, bounds=[(0, 1)], epsilon=1e-03)
@@ -94,7 +98,7 @@ def threshold_optimization_naive(p,y):
         p_binary = np.where(p > threshold, 1,0)
         p_images_binary = util.chunks(p_binary, 384*512)
 
-        mean, std = dice(p_images_binary, y_images)
+        mean, std, dices = dice(p_images_binary, y_images)
         return mean
 
     #score = map(dice_objective,tqdm(candidates))
@@ -120,7 +124,7 @@ def dice(prediction, y):
     mean = np.mean(dices)
     std = np.std(dices)
 
-    return mean, std
+    return mean, std, dices
 
 def dice_score_img(p, y):
     return np.sum(p[y == 1]) * 2.0 / (np.sum(p) + np.sum(y))
@@ -139,7 +143,8 @@ if __name__ == "__main__":
     print "Loading Y"
     y_train, y_test = features.load_y("balanced")
 
-    #train(X_train, X_test, y_train, y_test,LogisticRegression(), predict_black=True)
-    #train(X_train, X_test, y_train, y_test,AdaBoostClassifier(random_state=42), predict_black=True)
-    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=150,n_jobs=-1,random_state=42), use_probability=True, predict_black=True)
-    #train(X_train, X_test, y_train, y_test,SVC(verbose=True,max_iter=50000), use_probability=False)
+    #train(X_train, X_test, y_train, y_test,LogisticRegression(), predict_black=True,name="logreg")
+    train(X_train, X_test, y_train, y_test,AdaBoostClassifier(n_estimators=200,random_state=42), predict_black=True,name="adaboost200")
+    #train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=250,n_jobs=-1,random_state=42), use_probability=True, predict_black=True,name="rf200")
+    #train(X_train, X_test, y_train, y_test,SVC(verbose=2,max_iter=100000,probability=True), use_probability=True,name="svmrbf")
+    #train(X_train, X_test, y_train, y_test,SVC(kernel="linear",verbose=2,max_iter=100000,probability=True), use_probability=True,name="svmlinear")

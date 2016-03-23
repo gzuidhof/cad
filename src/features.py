@@ -84,8 +84,9 @@ def histogram_equalization(image, adaptive=False):
 
 def dist_transform_feature(image, threshold=1):
     kernel = np.ones((3,3),np.uint8)
+
+    #Create a binary threshold for the image
     mask = np.array(np.where(image >= threshold, 1,0), dtype=np.uint8)
-    #mask = np.minimum(image, 1)
 
     #Closing operation
     closing = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
