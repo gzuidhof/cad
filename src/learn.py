@@ -141,5 +141,5 @@ if __name__ == "__main__":
 
     #train(X_train, X_test, y_train, y_test,LogisticRegression(), predict_black=True)
     #train(X_train, X_test, y_train, y_test,AdaBoostClassifier(random_state=42), predict_black=True)
-    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=1000,n_jobs=-1,random_state=42), use_probability=True, predict_black=True)
+    train(X_train, X_test, y_train, y_test,RandomForestClassifier(n_estimators=150,n_jobs=-1,random_state=42), use_probability=True, predict_black=True)
     #train(X_train, X_test, y_train, y_test,SVC(verbose=True,max_iter=50000), use_probability=False)
