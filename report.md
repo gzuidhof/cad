@@ -64,10 +64,8 @@ We used 5 different classifiers:
 * **Random Forest** - Fits multiple decision tree classifiers and uses averaging to improve the accuracy and control overfitting
 * **Support Vector Machine Linear Kernel** - Finds the best fit in the training set using linear separators. New points are classified as the region they lie in, see figure for an example.
 * **Support Vector Machine RBF Kernel** - Same as above, only the separators are non-linear. See figure for example.  <br><br>
-<p align="center">
-  ![svm_kernels](svm_kernels.jpg)  
+  ![svm_kernels](svm_kernels.jpg) <br>  
   *Linear versus non-linear kernel SVM decision boundaries.*
-</p>
 
 We limited the SVM iterations to 100,000.
 
@@ -88,26 +86,24 @@ After predictions are made, we optimize the decision boundary. In other words, t
 | **SVM** (Linear kernel)            |           |                    |
 | **SVM** (RBF kernel)               |           |                f   |
 
-<p align="center">
-![Boxplot of classifiers](boxplot.png)  
+![Boxplot of classifiers](boxplot.png)  <br>
 *On the Y axis is the Dice similarity coefficient score.*
-</p>
 
 **TODO mooier opmaken**
 **Links staat telkens de probabilities, rechts na binary classification, zoek ook de annotation er nog even bij en voeg die toe (kun je vast wel op het oog)**
 ## Example classifications
 
-![true.png](true.png)  *True annotation*<br><br>
+![true.png](true.png) <br>  *True annotation*<br><br>
 
-![lr](logreg.png)  *Logistic Regression*<br><br>
+![lr](logreg.png) <br>  *Logistic Regression*<br><br>
 
-![rf](rf200.png)  *Random forest*<br><br>
+![rf](rf200.png) <br>  *Random forest*<br><br>
 
-![ada](ada200.png) *AdaBoost*<br><br>
+![ada](ada200.png) <br> *AdaBoost*<br><br>
 
-![svmlinear](/svmlinear.png) *Linear SVM* <br><br>
+![svmlinear](/svmlinear.png) <br> *Linear SVM* <br><br>
 
-![svmrbf](svmrbf.png) *RBF SVM* <br><br>
+![svmrbf](svmrbf.png) <br> *RBF SVM* <br><br>
 
 
 
