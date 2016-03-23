@@ -113,7 +113,7 @@ def dice_score_img(p, y):
 <div align="center" style="width:600px; display: inline-block; ">
 <p align="center">
 
-<img src="true.png"/><br>
+<img src="data/images/102061932001_an.png"/><br>
 <b>Ground truth</b>
 
 <img src="logreg.png"/><br>   
@@ -123,15 +123,12 @@ def dice_score_img(p, y):
 <b>Random forest</b>
 
 <img src="ada200.png"/><br>
-
 <b>AdaBoost</b>
 
 <img src="svmlinear.png"/><br>  
-
 <b>Linear SVM</b>
 
 <img src="svmrbf.png"/><br>  
-
 <b>RBF SVM</b>
 
 </p>
