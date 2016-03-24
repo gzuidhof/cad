@@ -118,10 +118,10 @@ On the left you can see the probabilities for either class as predicted by the m
 <img src="logreg.png"/><br>   
 <b>Logistic Regression</b>
 
-<img src="rf200.png"/><br>    
+<img src="rf200.png"/><br>      
 <b>Random forest</b>
 
-<img src="ada200.png"/><br>  
+<img src="ada200.png"/><br>    
 <b>AdaBoost</b>
 
 <img src="svmlinear.png"/><br>  
