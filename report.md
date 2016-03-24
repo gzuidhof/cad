@@ -73,7 +73,7 @@ We used 5 different classifiers:
   ![svm_kernels](svm_kernels.jpg) <br>  
   *Linear versus non-linear kernel SVM decision boundaries.*
 
-We limited the SVM iterations to 10,000 due to time constraints. We also ran both with a 100k iteration maximum with cross validation enabled to enable probability output, but these did not finish in time (we will update the values on the GitHub page of the report).
+We limited the SVM iterations to 100,000 due to time constraints (taking around 8 hours to train each with internal 5-fold cross validation to estimate probabilities). This caused the non-linear SVM to end prematurely before convergence.
 
 #### Postprocessing (threshold optimization)
 After predictions are made, we optimize the decision boundary. In other words, the probability threshold above which the point is classified as a white matter lesion. We use the `L-BFGS-B` algorithm found in `scipy.optimize` for this step, with the Dice similarity coefficient as the objective function.
@@ -100,7 +100,7 @@ def dice_score_img(p, y):
 | **Random Forest** (200 estimators) | **0.51**  | **0.18**           |
 | **AdaBoost** (200 estimators)      | 0.48      | 0.20               |
 | **SVM** (Linear kernel)            | 0.32      | 0.22               |
-| **SVM** (RBF kernel)               | 0.07      | 0.06               |
+| **SVM** (RBF kernel)               | 0.47      | 0.20               |
 
 ![Boxplot of classifiers](boxplot.png)  <br>
 *On the Y axis is the Dice similarity coefficient score.*
@@ -121,7 +121,7 @@ On the left you can see the probabilities for either class as predicted by the m
 <img src="rf200.png"/><br>    
 <b>Random forest</b>
 
-<img src="ada200.png"/><br>
+<img src="ada200.png"/><br>  
 <b>AdaBoost</b>
 
 <img src="svmlinear.png"/><br>  
