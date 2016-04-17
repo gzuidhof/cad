@@ -26,12 +26,19 @@ def define_network(inputs):
             W=lasagne.init.GlorotUniform())
 
     network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
+
+    if params.BATCH_NORMALIZATION:
+        network = lasagne.layers.BatchNormLayer(network)
+
     network = lasagne.layers.Conv2DLayer(
             network, num_filters=64, filter_size=(3, 3),
             nonlinearity=lasagne.nonlinearities.rectify,
             W=lasagne.init.GlorotUniform())
 
     network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
+
+    if params.BATCH_NORMALIZATION:
+        network = lasagne.layers.BatchNormLayer(network)
 
     network = lasagne.layers.DenseLayer(
             network,
@@ -107,7 +114,9 @@ if __name__ == "__main__":
 
     print "Defining network"
     network = define_network(inputs)
+    print "Defining loss function"
     loss, val_fn = define_loss(network, targets)
+    print "Defining learning function"
     train_fn = define_learning(network, loss)
 
     print "Loading data"
@@ -121,6 +130,10 @@ if __name__ == "__main__":
 
     # The number of epochs specifies the number of passes over the whole training data
     num_epochs = 30
+
+    #Take subset? Speeds it up x2
+    #train_X = train_X[:20000]
+    #train_y = train_y[:20000]
 
     print "Training for {} epochs".format(num_epochs)
 

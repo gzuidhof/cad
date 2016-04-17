@@ -2,24 +2,25 @@ import time
 
 class Params():
     def __init__(self):
+        self.MODEL_ID = str(int(time.time()))
 
+        # Domain
         self.PIXELS = 32
-
-        self.START_LEARNING_RATE = 0.01
-        self.MOMENTUM = 0.9
-
         self.CHANNELS = 3
         self.N_CLASSES = 10
 
+        # Network and learning parameters
+        self.START_LEARNING_RATE = 0.01
+        self.MOMENTUM = 0.9
+        self.BATCH_NORMALIZATION = True
+
+
+        # Augmentation
         self.AUGMENT = True
         self.COLOR_AUGMENTATION = True
-        self.NETWORK_INPUT_TYPE = 'RGB'
-
-        self.MODEL_ID = str(int(time.time()))
-
         self.AUGMENTATION_PARAMS = {
             'zoom_range': (1.0, 1.0),
-            'rotation_range':(-15,15),
+            'rotation_range':(-12,12),
             'translation_range': (-3,3),
             'do_flip': True,
             'hue_range': (-0.1, 0.1),
