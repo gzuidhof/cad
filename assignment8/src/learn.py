@@ -69,7 +69,7 @@ def define_learning(network, loss):
     # parameters at each training step. Here, we'll use Stochastic Gradient
     # Descent (SGD), but Lasagne offers plenty more.
     network_params = lasagne.layers.get_all_params(network, trainable=True)
-    updates = lasagne.updates.sgd(loss, network_params, learning_rate=params.START_LEARNING_RATE)
+    updates = lasagne.updates.momentum(loss, network_params, learning_rate=params.START_LEARNING_RATE, momentum=params.MOMENTUM)
 
 
 
