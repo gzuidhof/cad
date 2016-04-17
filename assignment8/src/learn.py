@@ -9,6 +9,7 @@ import os
 from params import params
 import data
 from tqdm import tqdm
+import normalize
 
 
 def define_network(inputs):
@@ -94,6 +95,8 @@ def iterate_minibatches(inputs, targets, batchsize, shuffle=False):
 
 
 if __name__ == "__main__":
+    np.random.seed(0)
+
     # First we define the symbolic input X and the symbolic target y. We want
     # to solve the equation y = C(X) where C is a classifier (convolutional network).
     inputs = T.tensor4('X')
@@ -106,6 +109,11 @@ if __name__ == "__main__":
 
     print "Loading data"
     train_X, train_y, val_X, val_y, label_to_names = data.load()
+
+    print "Normalizing train and validation set"
+    mean, std = normalize.calc_mean_std(train_X)
+    train_X = normalize.normalize(train_X, mean, std)
+    val_X = normalize.normalize(val_X, mean, std)
 
 
 
@@ -131,6 +139,7 @@ if __name__ == "__main__":
         val_batches = 0
         for batch in iterate_minibatches(val_X, val_y, 500, shuffle=False):
             inputs, targets = batch
+
             preds, err, acc = val_fn(inputs, targets)
             val_err += err
             val_acc += acc
