@@ -39,7 +39,6 @@ def load():
     test_y = np.array(cifar_test['labels'], dtype='ubyte')
 
 
-
     print("training set size: data = {}, labels = {}".format(train_X.shape, train_y.shape))
     print("validation set size: data = {}, labels = {}".format(val_X.shape, val_y.shape))
     print("test set size: data = {}, labels = {}".format(test_X.shape, test_y.shape))

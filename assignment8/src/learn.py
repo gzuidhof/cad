@@ -4,6 +4,9 @@ import time
 import theano
 import theano.tensor as T
 import lasagne
+
+from lasagne.regularization import regularize_layer_params, l2
+
 from math import sqrt, ceil
 import os
 from tqdm import tqdm
@@ -13,6 +16,7 @@ import data
 import normalize
 from augment import Augmenter
 from visualize import visualize_data
+from util import iterate_minibatches, histogram_equalization
 
 
 def define_network(inputs):
@@ -55,12 +59,22 @@ def define_network(inputs):
 
 def define_loss(network, targets):
     prediction = lasagne.layers.get_output(network)
+
+
     loss = lasagne.objectives.categorical_crossentropy(prediction, targets)
     loss = loss.mean()
 
     test_prediction = lasagne.layers.get_output(network, deterministic=True)
     test_loss = lasagne.objectives.categorical_crossentropy(test_prediction, targets)
     test_loss = test_loss.mean()
+
+    if params.REGULARIZATION:
+        regularization_penalty = regularize_layer_params(network, l2) * params.REGULARIZATION_WEIGHT
+
+        loss = loss + regularization_penalty
+        test_loss = test_loss + regularization_penalty
+
+
 
     acc = T.mean(T.eq(T.argmax(test_prediction, axis=1), targets),
                 dtype=theano.config.floatX)
@@ -85,24 +99,6 @@ def define_learning(network, loss):
     train_fn = theano.function([inputs, targets], loss, updates=updates)
 
     return train_fn
-
-
-# ### Batch iterator ###
-# This is just a simple helper function iterating over training
-# data in mini-batches of a particular size, optionally in random order.
-# It assumes data is available as numpy arrays.
-def iterate_minibatches(inputs, targets, batchsize, shuffle=False):
-    assert len(inputs) == len(targets)
-    if shuffle:
-        indices = np.arange(len(inputs))
-        np.random.shuffle(indices)
-    for start_idx in range(0, len(inputs) - batchsize + 1, batchsize):
-        if shuffle:
-            excerpt = indices[start_idx:start_idx + batchsize]
-        else:
-            excerpt = slice(start_idx, start_idx + batchsize)
-        yield inputs[excerpt], targets[excerpt]
-
 
 if __name__ == "__main__":
     np.random.seed(0)
@@ -129,11 +125,21 @@ if __name__ == "__main__":
     a = Augmenter(multiprocess=True)
 
     # The number of epochs specifies the number of passes over the whole training data
+    # Depending on augmentation settings, it still improves through epoch 100..
     num_epochs = 30
 
-    #Take subset? Speeds it up x2
+    #Take subset? Speeds it up x2, but worse performance ofc
     #train_X = train_X[:20000]
     #train_y = train_y[:20000]
+
+    if params.HISTOGRAM_EQUALIZATION:
+        adaptive = params.CLAHE
+        print "Performing equalization (adaptive={})".format(adaptive)
+        train_X = histogram_equalization(train_X, adaptive)
+        val_X = histogram_equalization(val_X, adaptive)
+        test_X = histogram_equalization(test_X, adaptive)
+
+
 
     print "Training for {} epochs".format(num_epochs)
 

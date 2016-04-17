@@ -14,6 +14,13 @@ class Params():
         self.MOMENTUM = 0.9
         self.BATCH_NORMALIZATION = True
 
+        self.REGULARIZATION = True
+        self.REGULARIZATION_WEIGHT = 0.02
+
+
+        #Did not improve results in N=1 test
+        self.HISTOGRAM_EQUALIZATION = False
+        self.CLAHE = False #adaptive equalization
 
         # Augmentation
         self.AUGMENT = True
@@ -24,8 +31,8 @@ class Params():
             'translation_range': (-3,3),
             'do_flip': True,
             'hue_range': (-0.1, 0.1),
-            'saturation_range': (-0.1, 0.1),
-            'value_range': (-0.1, 0.1)
+            'saturation_range': (-0.2, 0.2),
+            'value_range': (-0.2, 0.2)
         }
 
 params = Params()
