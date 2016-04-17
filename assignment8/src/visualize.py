@@ -17,7 +17,7 @@ def visualize_data(data, padsize=1, padval=0, cmap="gray", image_size=(10,10)):
     data = data.reshape((n, n) + data.shape[1:]).transpose((0, 2, 1, 3) + tuple(range(4, data.ndim + 1)))
     data = data.reshape((n * data.shape[1], n * data.shape[3]) + data.shape[4:])
 
-    plt.figure(figsize=image_size)
+    #plt.figure(figsize=image_size)
     plt.imshow(data, cmap=cmap)
     plt.show()
     plt.axis('off')

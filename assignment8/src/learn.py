@@ -6,10 +6,13 @@ import theano.tensor as T
 import lasagne
 from math import sqrt, ceil
 import os
+from tqdm import tqdm
+
 from params import params
 import data
-from tqdm import tqdm
 import normalize
+from augment import Augmenter
+from visualize import visualize_data
 
 
 def define_network(inputs):
@@ -110,12 +113,11 @@ if __name__ == "__main__":
     print "Loading data"
     train_X, train_y, val_X, val_y, label_to_names = data.load()
 
-    print "Normalizing train and validation set"
+    print "Determining mean and std of train set"
     mean, std = normalize.calc_mean_std(train_X)
-    train_X = normalize.normalize(train_X, mean, std)
-    val_X = normalize.normalize(val_X, mean, std)
 
 
+    a = Augmenter()
 
     # The number of epochs specifies the number of passes over the whole training data
     num_epochs = 20
@@ -130,7 +132,16 @@ if __name__ == "__main__":
         start_time = time.time()
         for batch in tqdm(iterate_minibatches(train_X, train_y, 32, shuffle=True)):
             inputs, targets = batch
-            train_err += train_fn(inputs, targets)
+            if params.AUGMENT:
+                inputs_augmented = a.augment(inputs)
+
+                #Show unaugmented and augmented images
+                #visualize_data(np.append(inputs[:8],inputs_augmented[:8],axis=0).transpose(0,2,3,1))
+
+                inputs_augmented = normalize.normalize(inputs_augmented, mean, std)
+                train_err += train_fn(inputs_augmented, targets)
+            else:
+                train_err += train_fn(inputs, targets)
             train_batches += 1
 
         # ...and a full pass over the validation data
@@ -139,6 +150,8 @@ if __name__ == "__main__":
         val_batches = 0
         for batch in iterate_minibatches(val_X, val_y, 500, shuffle=False):
             inputs, targets = batch
+
+            inputs = normalize.normalize(inputs, mean, std)
 
             preds, err, acc = val_fn(inputs, targets)
             val_err += err

@@ -54,13 +54,12 @@ class Augmenter():
 # Augments a single image, singled out for easier profiling
 def augment_image(original_image, M=0, random_flip=0,
                     random_hue=0, random_saturation=0, random_value=0):
-
         im = cv2.warpAffine(original_image.transpose(1, 2, 0), M, (params.PIXELS, params.PIXELS))
 
         # im is now RGB 01c
 
         if random_flip:
-            im = cv2.flip(im, 0)
+            im = cv2.flip(im, 1)
 
         if params.COLOR_AUGMENTATION:
             im = util.hsv_augment(im, random_hue, random_saturation, random_value)

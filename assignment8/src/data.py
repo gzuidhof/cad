@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 import os
 import pickle
@@ -34,5 +35,3 @@ def load():
     print("validation set size: data = {}, labels = {}".format(val_X.shape, val_y.shape))
 
     return train_X, train_y, val_X, val_y, label_to_names
-
-
