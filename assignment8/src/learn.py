@@ -117,7 +117,7 @@ if __name__ == "__main__":
     mean, std = normalize.calc_mean_std(train_X)
 
 
-    a = Augmenter()
+    a = Augmenter(multiprocess=True)
 
     # The number of epochs specifies the number of passes over the whole training data
     num_epochs = 20
@@ -130,10 +130,15 @@ if __name__ == "__main__":
         train_err = 0
         train_batches = 0
         start_time = time.time()
-        for batch in tqdm(iterate_minibatches(train_X, train_y, 32, shuffle=True)):
+
+
+        aug_time = 0
+        for batch in tqdm(iterate_minibatches(train_X, train_y, 64, shuffle=True)):
             inputs, targets = batch
             if params.AUGMENT:
+                pre_aug = time.time()
                 inputs_augmented = a.augment(inputs)
+                aug_time+= (time.time() - pre_aug)
 
                 #Show unaugmented and augmented images
                 #visualize_data(np.append(inputs[:8],inputs_augmented[:8],axis=0).transpose(0,2,3,1))
@@ -144,6 +149,7 @@ if __name__ == "__main__":
                 train_err += train_fn(inputs, targets)
             train_batches += 1
 
+        print "Augmentation time: ", aug_time
         # ...and a full pass over the validation data
         val_err = 0
         val_acc = 0

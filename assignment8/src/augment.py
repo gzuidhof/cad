@@ -4,11 +4,16 @@ import cv2
 
 from functools import partial
 import util
+from multiprocessing.pool import Pool
 
 class Augmenter():
-    def __init__(self):
+    def __init__(self, multiprocess=True):
         #Determine the center to rotate around
         self.center_shift = np.array((params.PIXELS, params.PIXELS)) / 2. - 0.5
+        self.multiprocess = multiprocess
+
+        if self.multiprocess:
+            self.pool = Pool(4)
 
     def augment(self, Xb):
         # Random number 0-1 whether we flip or not
@@ -31,7 +36,7 @@ class Augmenter():
         return self.augment_with_params(Xb, shift_x, shift_y, rotation, random_flip, zoom, random_hue, random_saturation, random_value)
 
     def augment_with_params(self, Xb, shift_x, shift_y, rotation, random_flip, zoom, hue, saturation, value):
-            Xbb = np.zeros(Xb.shape, dtype=np.float32)
+
 
             # Define affine matrix
             # TODO: Should be able to incorporate flips directly instead of through an extra call
@@ -46,8 +51,14 @@ class Augmenter():
                                         random_saturation=saturation,
                                         random_value=value)
 
-            for i in xrange(Xb.shape[0]):
-                Xbb[i] = augment_partial(Xb[i])
+            if self.multiprocess:
+                l = self.pool.map(augment_partial, Xb)
+                Xbb = np.array(l)
+            else:
+                Xbb = np.zeros(Xb.shape, dtype=np.float32)
+                for i in xrange(Xb.shape[0]):
+                    Xbb[i] = augment_partial(Xb[i])
+
 
             return Xbb
 
