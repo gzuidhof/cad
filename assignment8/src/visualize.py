@@ -23,7 +23,7 @@ def visualize_data(data, padsize=1, padval=0, cmap="gray", image_size=(10,10)):
     plt.axis('off')
 
 if __name__ == "__main__":
-    train_X,_,_,_,_ = data.load()
+    train_X,_,_,_,_,_,_ = data.load()
 
     random_idxs = np.random.randint(0,train_X.shape[0], 16)
     visualize_data(train_X[random_idxs].transpose(0,2,3,1))

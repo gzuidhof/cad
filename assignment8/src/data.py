@@ -31,7 +31,17 @@ def load():
     label_to_names = {k:v for k, v in zip(range(10), cifar_dict['label_names'])}
     f.close()
 
+    # test set
+    f = open(os.path.join(dataset_dir, "test_batch"), "rb")
+    cifar_test = pickle.load(f)
+    f.close()
+    test_X = (cifar_test['data'].reshape(-1, 3, 32, 32) / 255.).astype("float32")
+    test_y = np.array(cifar_test['labels'], dtype='ubyte')
+
+
+
     print("training set size: data = {}, labels = {}".format(train_X.shape, train_y.shape))
     print("validation set size: data = {}, labels = {}".format(val_X.shape, val_y.shape))
+    print("test set size: data = {}, labels = {}".format(test_X.shape, test_y.shape))
 
-    return train_X, train_y, val_X, val_y, label_to_names
+    return train_X, train_y, val_X, val_y, test_X, test_y, label_to_names

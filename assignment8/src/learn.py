@@ -111,7 +111,7 @@ if __name__ == "__main__":
     train_fn = define_learning(network, loss)
 
     print "Loading data"
-    train_X, train_y, val_X, val_y, label_to_names = data.load()
+    train_X, train_y, val_X, val_y, test_X, test_y, label_to_names = data.load()
 
     print "Determining mean and std of train set"
     mean, std = normalize.calc_mean_std(train_X)
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     a = Augmenter(multiprocess=True)
 
     # The number of epochs specifies the number of passes over the whole training data
-    num_epochs = 20
+    num_epochs = 30
 
     print "Training for {} epochs".format(num_epochs)
 
@@ -149,7 +149,7 @@ if __name__ == "__main__":
                 train_err += train_fn(inputs, targets)
             train_batches += 1
 
-        print "Augmentation time: ", aug_time
+        #print "Augmentation time: ", aug_time
         # ...and a full pass over the validation data
         val_err = 0
         val_acc = 0
@@ -165,8 +165,8 @@ if __name__ == "__main__":
             val_batches += 1
 
         # Then we print the results for this epoch:
-        print("Epoch {} of {} took {:.3f}s".format(
-            epoch + 1, num_epochs, time.time() - start_time))
+        print("Epoch {} of {} took {:.3f}s ({:.3f}s augmentation)".format(
+            epoch + 1, num_epochs, time.time() - start_time, aug_time))
         print("  training loss:\t\t{:.6f}".format(train_err / train_batches))
         print("  validation loss:\t\t{:.6f}".format(val_err / val_batches))
         print("  validation accuracy:\t\t{:.2f} %".format(
@@ -174,6 +174,24 @@ if __name__ == "__main__":
         curves['train_loss'].append(train_err / train_batches)
         curves['val_loss'].append(val_err / val_batches)
         curves['val_acc'].append(val_acc / val_batches)
+
+    print "Predicting test set"
+    test_err = 0
+    test_acc = 0
+    test_batches = 0
+
+    for batch in iterate_minibatches(test_X, test_y, 500, shuffle=False):
+        inputs, targets = batch
+
+        inputs = normalize.normalize(inputs, mean, std)
+
+        preds, err, acc = val_fn(inputs, targets)
+        test_err += err
+        test_acc += acc
+        test_batches += 1
+
+    print("TEST loss:\t\t{:.6f}".format(test_err / test_batches))
+    print("TEST accuracy:\t\t{:.2f} %".format(test_acc / test_batches * 100))
 
     print "Plotting"
     plt.plot(zip(curves['train_loss'], curves['val_loss']));
