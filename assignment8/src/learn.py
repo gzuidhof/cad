@@ -25,8 +25,13 @@ def define_network(inputs):
                                 input_var=inputs)
 
     network = lasagne.layers.Conv2DLayer(
-            network, num_filters=32, filter_size=(5, 5),
-            nonlinearity=lasagne.nonlinearities.rectify,
+            network, num_filters=32, filter_size=(3, 3),
+            nonlinearity=lasagne.nonlinearities.leaky_rectify,
+            W=lasagne.init.GlorotUniform())
+
+    network = lasagne.layers.Conv2DLayer(
+            network, num_filters=64, filter_size=(3, 3),
+            nonlinearity=lasagne.nonlinearities.leaky_rectify,
             W=lasagne.init.GlorotUniform())
 
     network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
@@ -35,8 +40,12 @@ def define_network(inputs):
         network = lasagne.layers.BatchNormLayer(network)
 
     network = lasagne.layers.Conv2DLayer(
-            network, num_filters=64, filter_size=(3, 3),
-            nonlinearity=lasagne.nonlinearities.rectify,
+            network, num_filters=128, filter_size=(3, 3),
+            nonlinearity=lasagne.nonlinearities.leaky_rectify,
+            W=lasagne.init.GlorotUniform())
+    network = lasagne.layers.Conv2DLayer(
+            network, num_filters=128, filter_size=(3, 3),
+            nonlinearity=lasagne.nonlinearities.leaky_rectify,
             W=lasagne.init.GlorotUniform())
 
     network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
@@ -44,10 +53,31 @@ def define_network(inputs):
     if params.BATCH_NORMALIZATION:
         network = lasagne.layers.BatchNormLayer(network)
 
+    if params.DEEPER:
+        network = lasagne.layers.Conv2DLayer(
+                network, num_filters=128, filter_size=(3, 3),
+                nonlinearity=lasagne.nonlinearities.leaky_rectify,
+                W=lasagne.init.GlorotUniform())
+        network = lasagne.layers.Conv2DLayer(
+                network, num_filters=128, filter_size=(3, 3),
+                nonlinearity=lasagne.nonlinearities.leaky_rectify,
+                W=lasagne.init.GlorotUniform())
+
+        network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
+
+        if params.BATCH_NORMALIZATION:
+            network = lasagne.layers.BatchNormLayer(network)
+
     network = lasagne.layers.DenseLayer(
             network,
             num_units=1024,
-            nonlinearity=lasagne.nonlinearities.rectify,
+            nonlinearity=lasagne.nonlinearities.leaky_rectify,
+            W=lasagne.init.GlorotUniform()
+    )
+    network = lasagne.layers.DenseLayer(
+            network,
+            num_units=512,
+            nonlinearity=lasagne.nonlinearities.leaky_rectify,
             W=lasagne.init.GlorotUniform()
     )
 
