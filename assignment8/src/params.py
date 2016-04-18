@@ -16,7 +16,7 @@ class Params():
 
         self.REGULARIZATION = True
         self.REGULARIZATION_WEIGHT = 0.02
-
+        self.UPDATEFUNCTION = "ADAM"
 
         #Did not improve results in N=1 test
         self.HISTOGRAM_EQUALIZATION = False
