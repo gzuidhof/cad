@@ -15,7 +15,7 @@ class Params():
         self.BATCH_NORMALIZATION = True
 
         self.REGULARIZATION = True
-        self.REGULARIZATION_WEIGHT = 0.03
+        self.REGULARIZATION_WEIGHT = 0.1
         self.UPDATEFUNCTION = "MOMENTUM"
         self.DEEPER = True
 

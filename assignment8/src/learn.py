@@ -58,7 +58,6 @@ def define_network(inputs):
                 network, num_filters=128, filter_size=(3, 3),
                 nonlinearity=lasagne.nonlinearities.leaky_rectify,
                 W=lasagne.init.GlorotUniform())
-
         network = lasagne.layers.Conv2DLayer(
                 network, num_filters=128, filter_size=(3, 3),
                 nonlinearity=lasagne.nonlinearities.leaky_rectify,
@@ -68,7 +67,6 @@ def define_network(inputs):
 
         if params.BATCH_NORMALIZATION:
             network = lasagne.layers.BatchNormLayer(network)
-
 
     network = lasagne.layers.DenseLayer(
             network,
