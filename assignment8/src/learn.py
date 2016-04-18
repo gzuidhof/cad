@@ -58,15 +58,17 @@ def define_network(inputs):
                 network, num_filters=128, filter_size=(3, 3),
                 nonlinearity=lasagne.nonlinearities.leaky_rectify,
                 W=lasagne.init.GlorotUniform())
+
         network = lasagne.layers.Conv2DLayer(
                 network, num_filters=128, filter_size=(3, 3),
                 nonlinearity=lasagne.nonlinearities.leaky_rectify,
                 W=lasagne.init.GlorotUniform())
 
-        network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
+        #network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
 
         if params.BATCH_NORMALIZATION:
             network = lasagne.layers.BatchNormLayer(network)
+
 
     network = lasagne.layers.DenseLayer(
             network,
@@ -158,7 +160,7 @@ if __name__ == "__main__":
 
     # The number of epochs specifies the number of passes over the whole training data
     # Depending on augmentation settings, it still improves through epoch 100..
-    num_epochs = 30
+    num_epochs = 50
 
     #Take subset? Speeds it up x2, but worse performance ofc
     #train_X = train_X[:20000]
