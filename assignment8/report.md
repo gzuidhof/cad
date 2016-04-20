@@ -67,7 +67,7 @@ To speed things up, we ran this augmentation in parallel for different images in
 ## Batch Normalization and Leaky ReLUs##
 Applying batch normalization presents the current state of the art in network architecture design. We apply batch normalization after the max pooling layers, this allows for faster convergence and a decrease in overfitting.
 
-We investigated using Leaky Rectified Linear Units (ReLU). We empiricially determined that it improved our accuracy slightly..
+We investigated using Leaky Rectified Linear Units (ReLU). We empiricially determined that it improved our accuracy slightly.
 
 ## Regularization ##
 We applied a penalty to the weights to further prevent overfitting, L2 regularization to be exact. We empirically evaluated a few values for the lambda term (the weighting of this penalty), and after some observations we settled for 0.02 which is relatively low.
@@ -103,7 +103,7 @@ We arbitrarily defined the number of maximum epochs, and at that epoch calculate
 
 Note that for the deeper networks we increased the amount of epochs, so they may be very comparable to the earlier architecturs.
 
-** "Deeper" network *(0.850 accuracy)***
+** "Deeper" network *(0.850 accuracy)* **
 ![](https://raw.githubusercontent.com/gzuidhof/cad/master/assignment8/2dense_Leaky_Deeper_850.png)
 
 ** "Deeper" network ith 0.1 regularization lambda (as opposed to 0.02) *(0.852 accuracy)***
