@@ -40,15 +40,16 @@ def define_network(inputs):
         network = lasagne.layers.BatchNormLayer(network)
 
     network = lasagne.layers.Conv2DLayer(
-            network, num_filters=128, filter_size=(3, 3),
+            network, num_filters=96, filter_size=(3, 3),
             nonlinearity=lasagne.nonlinearities.leaky_rectify,
             W=lasagne.init.GlorotUniform())
     network = lasagne.layers.Conv2DLayer(
-            network, num_filters=128, filter_size=(3, 3),
+            network, num_filters=128, filter_size=(1, 1),
             nonlinearity=lasagne.nonlinearities.leaky_rectify,
             W=lasagne.init.GlorotUniform())
 
     network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
+    #network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
 
     if params.BATCH_NORMALIZATION:
         network = lasagne.layers.BatchNormLayer(network)
@@ -58,6 +59,17 @@ def define_network(inputs):
                 network, num_filters=128, filter_size=(3, 3),
                 nonlinearity=lasagne.nonlinearities.leaky_rectify,
                 W=lasagne.init.GlorotUniform())
+        network = lasagne.layers.Conv2DLayer(
+                network, num_filters=128, filter_size=(1, 1),
+                nonlinearity=lasagne.nonlinearities.leaky_rectify,
+                W=lasagne.init.GlorotUniform())
+
+        #network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
+
+        if params.BATCH_NORMALIZATION:
+            network = lasagne.layers.BatchNormLayer(network)
+
+    if params.EVEN_DEEPER:
         network = lasagne.layers.Conv2DLayer(
                 network, num_filters=128, filter_size=(3, 3),
                 nonlinearity=lasagne.nonlinearities.leaky_rectify,
@@ -76,7 +88,7 @@ def define_network(inputs):
     )
     network = lasagne.layers.DenseLayer(
             network,
-            num_units=512,
+            num_units=1024,
             nonlinearity=lasagne.nonlinearities.leaky_rectify,
             W=lasagne.init.GlorotUniform()
     )
@@ -124,6 +136,9 @@ def define_learning(network, loss):
         updates = lasagne.updates.momentum(loss, network_params, learning_rate=params.START_LEARNING_RATE, momentum=params.MOMENTUM)
     elif params.UPDATEFUNCTION == "ADAM":
         updates = lasagne.updates.adam(loss, network_params, learning_rate=params.START_LEARNING_RATE)
+    elif params.UPDATEFUNCTION == "RMSPROP":
+        updates = lasagne.updates.adam(loss, network_params)
+
 
 
     # Compile a function performing a training step on a mini-batch (by giving
@@ -158,7 +173,7 @@ if __name__ == "__main__":
 
     # The number of epochs specifies the number of passes over the whole training data
     # Depending on augmentation settings, it still improves through epoch 100..
-    num_epochs = 50
+    num_epochs = 100
 
     #Take subset? Speeds it up x2, but worse performance ofc
     #train_X = train_X[:20000]
@@ -184,7 +199,7 @@ if __name__ == "__main__":
 
 
         aug_time = 0
-        for batch in tqdm(iterate_minibatches(train_X, train_y, 64, shuffle=True)):
+        for batch in tqdm(iterate_minibatches(train_X, train_y, 256, shuffle=True)):
             inputs, targets = batch
             if params.AUGMENT:
                 pre_aug = time.time()
@@ -192,7 +207,7 @@ if __name__ == "__main__":
                 aug_time+= (time.time() - pre_aug)
 
                 #Show unaugmented and augmented images
-                #visualize_data(np.append(inputs[:8],inputs_augmented[:8],axis=0).transpose(0,2,3,1))
+                visualize_data(np.append(inputs[:8],inputs_augmented[:8],axis=0).transpose(0,2,3,1))
 
                 inputs_augmented = normalize.normalize(inputs_augmented, mean, std)
                 train_err += train_fn(inputs_augmented, targets)
