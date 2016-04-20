@@ -138,4 +138,4 @@ We let it run for 100 epochs.. causing it to overfit quite a bit. The highest ob
 ![](https://raw.githubusercontent.com/gzuidhof/cad/master/assignment8/wemustgodeeper.png)
 
 
-An easy way to improve the performance of our networks is by performing test time augmentation (TTA). Other obvious ways are ensembling multiple networks.
+An easy way to improve the performance of our networks is by performing test time augmentation (TTA). Another obvious way is ensembling multiple networks and applying better regularization (our selected lambda values are likely not optimal).
