@@ -101,7 +101,7 @@ We arbitrarily defined the number of maximum epochs, and at that epoch calculate
 ** Network described above *(0.846 accuracy)***
 ![](https://raw.githubusercontent.com/gzuidhof/cad/master/assignment8/2dense_Leaky846.png)
 
-Note that for the deeper networks we increased the amount of epochs, so they may be very comparable to the earlier architecturs.
+Note that for the deeper networks we increased the amount of epochs, so they may be hard to compare to the earlier architectures.
 
 ** "Deeper" network *(0.850 accuracy)* **
 ![](https://raw.githubusercontent.com/gzuidhof/cad/master/assignment8/2dense_Leaky_Deeper_850.png)
@@ -113,7 +113,7 @@ Some more attempts were made (see GitHub repository for graphs), but they were m
 
 ## Let's go even deeper ##
 
-Out of curiosity, we trained one final different architecture with quite some changes, such as also doing zoom augmentations (0.90 to 1.1 scale factor) and bigger ranges of saturation and value augmentations (-0.25, 0.25). Also, we used RMSProp, as something funky happened around epoch 50 which caused the weights to explode that we could not explain. Finally, the batch size was increased to 256 and it features 1x1 convolutions.
+Out of curiosity, we trained one final different (deeper) architecture with quite some changes, such as also doing zoom augmentations (0.90 to 1.1 scale factor) and bigger ranges of saturation and value augmentations (-0.25, 0.25). Also, we used RMSProp, as something funky happened around epoch 50 which caused the weights to explode that we could not explain. Finally, the batch size was increased to 256 and it features 1x1 convolutions.
 
 The architecture:
 
