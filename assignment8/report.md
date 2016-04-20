@@ -9,7 +9,7 @@ Guido Zuidhof (s4160703), Steven Reitsma (s4132343), Robbert van der Gugten (s41
 ## Implementation
 We refer to our [Git repository](https://github.com/gzuidhof/cad) for our source code. We make use of the following dependencies:
 * **Python 2.7**
-* **OpenCV2**: morphological editing functions, used a lot in preprocessing
+* **OpenCV2**: augmentation of images
 * **cPickle**: read and write files
 * **tqdm**: progress bars
 * **theano & lasagne**: framework for CNNs
