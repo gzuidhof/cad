@@ -207,7 +207,7 @@ if __name__ == "__main__":
                 aug_time+= (time.time() - pre_aug)
 
                 #Show unaugmented and augmented images
-                visualize_data(np.append(inputs[:8],inputs_augmented[:8],axis=0).transpose(0,2,3,1))
+                #visualize_data(np.append(inputs[:8],inputs_augmented[:8],axis=0).transpose(0,2,3,1))
 
                 inputs_augmented = normalize.normalize(inputs_augmented, mean, std)
                 train_err += train_fn(inputs_augmented, targets)

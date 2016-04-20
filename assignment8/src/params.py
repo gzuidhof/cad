@@ -30,7 +30,7 @@ class Params():
         self.AUGMENTATION_PARAMS = {
             'zoom_range': (0.9, 1.1),
             'rotation_range':(-12,12),
-            'translation_range': (-3,3),
+            'translation_range': (-2,2),
             'do_flip': True,
             'hue_range': (-0.1, 0.1),
             'saturation_range': (-0.25, 0.25),
