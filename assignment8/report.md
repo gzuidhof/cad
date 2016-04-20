@@ -23,7 +23,7 @@ Our network's architecture:
 * **Fully connected layer** - 1024 units, ReLU, weights initialized uniform Glorot
 * **Softmax layer** - 10 outputs, one for each class
 
-This architecture resulted in a validation accuracy of 66% and a test accuracy of **TODO**
+This architecture resulted in a validation accuracy of 66%.
 
 
 ## Learning rate optimization & Choosing the update rule
